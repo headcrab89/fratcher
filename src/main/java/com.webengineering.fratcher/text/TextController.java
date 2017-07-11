@@ -13,12 +13,12 @@ public class TextController {
     private TextService textService;
 
     @RequestMapping("text")
-    public List<String> getPostList() {
+    public List<Text> getPostList() {
         return textService.getTexts();
     }
 
     @RequestMapping(value = "text/add")
-    public void addText(@RequestParam("text") String text) {
-        textService.addText(text);
+    public void addText(@RequestParam("text") String userText) {
+        textService.addText(userText);
     }
 }
