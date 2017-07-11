@@ -1,20 +1,26 @@
 package com.webengineering.fratcher.text;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @Service
 public class TextService {
-    private List<Text> texts = new LinkedList<>();
+    @Autowired
+    private TextRepository repository;
 
-    public List<Text> getTexts() {
-        return texts;
+    public Iterable<Text> getTexts() {
+        return repository.findAll();
     }
 
-    public void addText( String userText) {
-        Text text = new Text(userText);
-        texts.add(text);
+    public void addText( Text text) {
+        repository.save(text);
+    }
+
+    public Text getText(Long id) {
+        return repository.findOne(id);
+    }
+
+    public void deleteText(Long id) {
+        repository.delete(id);
     }
 }
