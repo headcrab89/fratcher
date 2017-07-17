@@ -1,10 +1,18 @@
 package com.webengineering.fratcher.text;
 
+import com.webengineering.fratcher.util.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TextController {
+    private static class TextCreated {
+        public String url;
+    }
+
+    @Autowired
+    private AddressService addressService;
+
     @Autowired
     private TextService textService;
 
@@ -14,8 +22,11 @@ public class TextController {
     }
 
     @RequestMapping(value = "/text", method = RequestMethod.POST)
-    public void addText(@RequestBody Text text) {
+    public TextCreated addText(@RequestBody Text text) {
         textService.addText(text);
+        TextCreated textCreated =  new TextCreated();
+        textCreated.url = addressService.getServerURL() +"/text/" + text.getId();
+        return textCreated;
     }
 
     @RequestMapping(value = "/text/{id}", method = RequestMethod.GET)

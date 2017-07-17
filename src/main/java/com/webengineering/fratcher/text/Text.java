@@ -3,6 +3,7 @@ package com.webengineering.fratcher.text;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import java.util.Date;
 
 @Entity
@@ -13,10 +14,6 @@ public class Text {
 
     private String userText;
     private Date createdAt;
-
-    public Text() {
-        createdAt = new Date();
-    }
 
     public String getUserText() {
         return userText;
@@ -40,5 +37,16 @@ public class Text {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * This method is called before an entity is persisted in the database. This is in contrast to our previous
+     * approach where an object's createdAt depends on the date of its instantiation.
+     * <p>
+     * Information about @PrePersist where found by using the search terms "jpa annotations createdat".
+     */
+    @PrePersist
+    public void prePersist() {
+        createdAt = new Date();
     }
 }
