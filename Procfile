@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -Dserver.port=$PORT -Dspring.profiles.active=heroku -jar target/fratcher-1.0-SNAPSHOT.jar

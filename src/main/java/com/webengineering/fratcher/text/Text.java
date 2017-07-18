@@ -1,9 +1,8 @@
 package com.webengineering.fratcher.text;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import com.webengineering.fratcher.user.User;
+
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -11,6 +10,9 @@ public class Text {
     @Id
     @GeneratedValue
     private  Long id;
+
+    @OneToOne(optional = false)
+    private User author;
 
     private String userText;
     private Date createdAt;
@@ -39,6 +41,14 @@ public class Text {
         this.id = id;
     }
 
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
     /**
      * This method is called before an entity is persisted in the database. This is in contrast to our previous
      * approach where an object's createdAt depends on the date of its instantiation.
@@ -48,5 +58,15 @@ public class Text {
     @PrePersist
     public void prePersist() {
         createdAt = new Date();
+    }
+
+    @Override
+    public String toString() {
+        return "Text{" +
+                "id=" + id +
+                ", author=" + author +
+                ", userText='" + userText + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }
