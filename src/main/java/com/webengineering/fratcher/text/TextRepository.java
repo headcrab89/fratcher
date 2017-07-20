@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface TextRepository extends CrudRepository<Text, Long> {
-    @Query("SELECT t from Text p ORDER BY t.createdAt DESC")
+    @Query("SELECT t from Text t ORDER BY t.createdAt DESC")
     List<Text> findAll();
-
 }

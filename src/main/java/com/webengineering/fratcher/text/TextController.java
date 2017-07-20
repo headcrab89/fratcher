@@ -16,25 +16,25 @@ public class TextController {
     @Autowired
     private TextService textService;
 
-    @RequestMapping(value = "/text", method = RequestMethod.GET)
+    @RequestMapping(value = "api/text", method = RequestMethod.GET)
     public Iterable<Text> getPostList() {
         return textService.getTexts();
     }
 
-    @RequestMapping(value = "/text", method = RequestMethod.POST)
+    @RequestMapping(value = "api/text", method = RequestMethod.POST)
     public TextCreated addText(@RequestBody Text text) {
         textService.addText(text);
         TextCreated textCreated =  new TextCreated();
-        textCreated.url = addressService.getServerURL() +"/text/" + text.getId();
+        textCreated.url = addressService.getServerURL() +"api/text/" + text.getId();
         return textCreated;
     }
 
-    @RequestMapping(value = "/text/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "api/text/{id}", method = RequestMethod.GET)
     public Text getText(@PathVariable Long id) {
         return textService.getText(id);
     }
 
-    @RequestMapping(value = "/text/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "api/text/{id}", method = RequestMethod.DELETE)
     public void deleteText(@PathVariable Long id) {
         textService.deleteText(id);
     }

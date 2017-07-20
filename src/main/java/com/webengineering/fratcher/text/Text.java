@@ -7,6 +7,8 @@ import java.util.Date;
 
 @Entity
 public class Text {
+    public static final int TEXT_LENGTH = 1024;
+
     @Id
     @GeneratedValue
     private  Long id;
@@ -14,6 +16,7 @@ public class Text {
     @OneToOne(optional = false)
     private User author;
 
+    @Column(length = Text.TEXT_LENGTH)
     private String userText;
     private Date createdAt;
 
