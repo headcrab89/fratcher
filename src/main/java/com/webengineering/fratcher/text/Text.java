@@ -52,6 +52,25 @@ public class Text {
         this.author = author;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Text text = (Text) o;
+
+        return id != null ? id.equals(text.id) : text.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
     /**
      * This method is called before an entity is persisted in the database. This is in contrast to our previous
      * approach where an object's createdAt depends on the date of its instantiation.

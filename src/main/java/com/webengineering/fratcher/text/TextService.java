@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class TextService {
     private static final Logger LOG = LoggerFactory.getLogger(TextService.class);
@@ -23,9 +25,23 @@ public class TextService {
         return repository.findAll();
     }
 
-    public void addText( Text text) {
-        text.setAuthor(userService.getCurrentUser());
-        repository.save(text);
+    public long addOrReplaceText(Text newText) {
+        // If the current user has no text he can create one, otherwise the text will be replaced
+        Text text = repository.findByUser(userService.getCurrentUser());
+
+        if (text == null) {
+            newText.setAuthor(userService.getCurrentUser());
+            repository.save(newText);
+
+            return newText.getId();
+        } else {
+            text.setUserText(newText.getUserText());
+            text.setCreatedAt(new Date());
+
+            repository.save(text);
+
+            return text.getId();
+        }
     }
 
     public Text getText(Long id) {

@@ -56,6 +56,6 @@ public class AddressService implements ApplicationListener<EmbeddedServletContai
      * @return server URL.
      */
     public String getServerURL() {
-        return "http://" + getHostName() + ":" + getPort();
+        return "http://" + getHostName() + ":" + getPort() + "/";
     }
 }

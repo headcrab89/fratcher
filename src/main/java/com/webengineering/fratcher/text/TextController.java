@@ -22,10 +22,10 @@ public class TextController {
     }
 
     @RequestMapping(value = "api/text", method = RequestMethod.POST)
-    public TextCreated addText(@RequestBody Text text) {
-        textService.addText(text);
+    public TextCreated addOrReplaceText(@RequestBody Text text) {
+        long textId = textService.addOrReplaceText(text);
         TextCreated textCreated =  new TextCreated();
-        textCreated.url = addressService.getServerURL() +"api/text/" + text.getId();
+        textCreated.url = addressService.getServerURL() +"api/text/" + textId;
         return textCreated;
     }
 
