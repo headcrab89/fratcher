@@ -19,8 +19,7 @@ public class TextService {
     private UserService userService;
 
     public Iterable<Text> getTexts() {
-        User currentUser = userService.getCurrentUser();
-        LOG.info("Current user {}", currentUser);
+        LOG.info("Returning texts. user={}", userService.getCurrentUser().getEmail());
 
         return repository.findAll();
     }
@@ -30,11 +29,13 @@ public class TextService {
         Text text = repository.findByUser(userService.getCurrentUser());
 
         if (text == null) {
+            LOG.info("Adding text. user={}, text={}", userService.getCurrentUser().getEmail(), newText.getUserText());
             newText.setAuthor(userService.getCurrentUser());
             repository.save(newText);
 
             return newText.getId();
         } else {
+            LOG.info("Replacing text. user={}, text={}", userService.getCurrentUser().getEmail(), newText.getUserText());
             text.setUserText(newText.getUserText());
             text.setCreatedAt(new Date());
 
@@ -45,6 +46,7 @@ public class TextService {
     }
 
     public Text getText(Long id) {
+        LOG.info("Retrieving text. user={}, id={}", userService.getCurrentUser().getEmail(), id);
         return repository.findOne(id);
     }
 
@@ -52,8 +54,10 @@ public class TextService {
         // Validate that user is allowed to delete his text.
         Text text = repository.findOne(id);
         if (!text.getAuthor().equals(userService.getCurrentUser())) {
+            LOG.info("Deleting text not allowed. user={}, id={}", userService.getCurrentUser().getEmail(), id);
             throw new IllegalStateException("User not allowed to delete text");
         }
+        LOG.info("Deleting text. user={}, id={}", userService.getCurrentUser().getEmail(), id);
 
         repository.delete(id);
     }
