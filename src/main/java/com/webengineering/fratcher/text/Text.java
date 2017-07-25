@@ -1,5 +1,7 @@
 package com.webengineering.fratcher.text;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.webengineering.fratcher.user.User;
 
 import javax.persistence.*;
@@ -7,9 +9,10 @@ import java.util.Date;
 
 @Entity
 public class Text {
-    public static final int TEXT_LENGTH = 1024;
+    public static final int TEXT_LENGTH = 65536;
 
     @Id
+    @JsonIgnore
     @GeneratedValue
     private  Long id;
 
@@ -36,10 +39,12 @@ public class Text {
         this.createdAt = createdAt;
     }
 
+    @JsonProperty
     public Long getId() {
         return id;
     }
 
+    @JsonIgnore
     public void setId(Long id) {
         this.id = id;
     }
