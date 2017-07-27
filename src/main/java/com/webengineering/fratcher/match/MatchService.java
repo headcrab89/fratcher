@@ -17,6 +17,27 @@ public class MatchService {
     @Autowired
     private UserService userService;
 
+    public Iterable<Match> getMatches (Long userId) {
+        return repository.findByUserId(userId);
+    }
+
+    public void addMatch (Match newMatch) {
+        Match match = repository.findMatchForUsers(userService.getCurrentUser(), newMatch.getSecondUser());
+
+        if (match == null) {
+            newMatch.setFirstUser(userService.getCurrentUser());
+            newMatch.setBothMatching(false);
+
+            repository.save(newMatch);
+        } else {
+            if (!match.isBothMatching()) {
+                match.setBothMatching(true);
+                repository.save(match);
+            }
+        }
+    }
+
+
     public void removeComment(Comment comment) {
         LOG.debug("Trying to remove comment. id={}", comment.getId());
         Match match = repository.findMatchForComment(comment);
@@ -38,7 +59,7 @@ public class MatchService {
                 id, comment.getId());
         Match match = repository.findOne(id);
         if (match == null) {
-            throw new IllegalArgumentException("Post not found. id=" + id);
+            throw new IllegalArgumentException("Match not found. id=" + id);
         }
 
         match.getComments().add(comment);

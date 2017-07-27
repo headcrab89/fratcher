@@ -9,12 +9,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class MatchController {
     @Autowired
+    private MatchService matchService;
+
+    @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/api/match", method = RequestMethod.GET)
-    public Iterable<Match> getMatchList() {
-        // TODO ML
-        return null;
+    @RequestMapping(value = "/api/user/{userId}/match", method = RequestMethod.GET)
+    public ResponseEntity<Object> getMatchFromUser(@PathVariable Long userId) {
+
+        if (userId != userService.getCurrentUser().getId()) {
+           return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        return ResponseEntity.ok(matchService.getMatches(userId));
     }
 
     @RequestMapping(value = "/api/match", method = RequestMethod.POST)
@@ -23,16 +30,14 @@ public class MatchController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        matchService.addMatch(match);
+
         return ResponseEntity.ok(null);
     }
 
-    @RequestMapping(value = "/api/match/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> editMatch(@PathVariable Long id, @RequestBody Match match) {
-        return ResponseEntity.ok(null);
-    }
 
-    @RequestMapping(value = "/api/match/{id}", method = RequestMethod.DELETE)
-    public void deleteMatch(@PathVariable Long id) {
-        // TODO ML
-    }
+//    @RequestMapping(value = "/api/match/{id}", method = RequestMethod.DELETE)
+//    public void deleteMatch(@PathVariable Long id) {
+//        // TODO ML
+//    }
 }

@@ -20,6 +20,12 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
+
+    /**
+     * Configuration for Swagger.
+     *
+     * @return a docket.
+     */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)

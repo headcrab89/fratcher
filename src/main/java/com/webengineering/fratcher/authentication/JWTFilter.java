@@ -6,7 +6,6 @@ import io.jsonwebtoken.SignatureException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -36,6 +35,7 @@ public class JWTFilter extends GenericFilterBean {
 
         String auth = httpServletRequest.getHeader("Authorization");
         if (!StringUtils.startsWith(auth, "Bearer ")) {
+            // Allow requests without a token.
             LOG.debug("No token provided, setting to anonymous user");
             userService.setAnonymous();
             filterChain.doFilter(request, response);
