@@ -2,7 +2,7 @@
 DELETE FROM MATCH_;
 DELETE FROM COMMENT;
 DELETE FROM MATCH_COMMENTS;
-DELETE FROM Text;
+DELETE FROM TEXT;
 DELETE FROM USER_;
 
   -- Insert new users.
@@ -13,7 +13,7 @@ DELETE FROM USER_;
 
 
   -- Add some posts.
-  INSERT INTO Text (ID, USER_TEXT, CREATED_AT, AUTHOR_ID) VALUES
+  INSERT INTO TEXT (ID, USER_TEXT, CREATED_AT, AUTHOR_ID) VALUES
   (1, 'Hallo', parsedatetime('2017-07-20 05:01', 'yyyy-MM-dd HH:mm'), 1),
   (2, 'Huhu', parsedatetime('2017-07-21 12:01', 'yyyy-MM-dd HH:mm'), 2),
   (3, 'Hi', parsedatetime('2017-07-23 12:01', 'yyyy-MM-dd HH:mm'), 3);

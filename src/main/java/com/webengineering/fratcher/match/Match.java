@@ -4,6 +4,7 @@ import com.webengineering.fratcher.comment.Comment;
 import com.webengineering.fratcher.user.User;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity(name = "Match_")
@@ -20,9 +21,21 @@ public class Match {
 
     private boolean bothMatching;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
+    public Match() {
+        // Default constructor for JPA.
+        comments = new LinkedList<>();
+    }
+
+    public Match(Long id, User firstUser, User secondUser, boolean bothMatching) {
+        this.id = id;
+        this.firstUser = firstUser;
+        this.secondUser = secondUser;
+        this.bothMatching = bothMatching;
+        comments = new LinkedList<>();
+    }
 
     public List<Comment> getComments() {
         return comments;

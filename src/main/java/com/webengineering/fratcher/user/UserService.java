@@ -15,6 +15,23 @@ public class UserService {
     private UserRepository userRepository;
 
     /**
+     * Sets the current user to anonymous.
+     */
+    public void setAnonymous() {
+        setCurrentUser(-1L, "<anonymous>");
+    }
+
+
+    /**
+     * Check if the current user is not authenticated.
+     *
+     * @return true if the user is not authenticated.
+     */
+    public boolean isAnonymous() {
+        return getCurrentUser().getId() == -1L;
+    }
+
+    /**
      * Retrieve the currently active user or null, if no user is logged in.
      *
      * @return the current user.
