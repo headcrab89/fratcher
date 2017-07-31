@@ -1,0 +1,26 @@
+{
+  "name": "fratcher-SS2017",
+  "version": "1.0.0",
+  "description": "Project for webengineering 2017",
+  "main": "index.js",
+  "repository": "https://github.com/headcrab89/fratcher",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "node ./node_modules/.bin/webpack -w"
+  },
+  "author": "Olga Groh",
+  "devDependencies": {
+    "babel-core": "6.24.1",
+    "babel-loader": "7.0.0-beta.1",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-react": "6.24.1",
+    "webpack": "2.4.1",
+    "copy-webpack-plugin": "4.0.1"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "babel-preset-stage-1": "6.24.1",
+    "react": "15.5.4",
+    "react-dom": "^15.5.4"
+  }
+}
