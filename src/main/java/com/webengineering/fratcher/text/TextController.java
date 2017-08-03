@@ -24,6 +24,10 @@ public class TextController {
 
     @RequestMapping(value = "api/text", method = RequestMethod.GET)
     public ResponseEntity<Object> getNewTextList() {
+        if (userService.isAnonymous()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         return ResponseEntity.ok(textService.getNewTexts());
     }
 
