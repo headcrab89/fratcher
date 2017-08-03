@@ -1,5 +1,7 @@
 package com.webengineering.fratcher.text;
 
+import com.webengineering.fratcher.match.Match;
+import com.webengineering.fratcher.match.MatchService;
 import com.webengineering.fratcher.user.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TextService {
@@ -18,10 +22,22 @@ public class TextService {
     @Autowired
     private UserService userService;
 
-    public Iterable<Text> getTexts() {
-        LOG.info("Returning texts. user={}", userService.getCurrentUser().getEmail());
+    @Autowired
+    private MatchService matchService;
 
-        return repository.findAll();
+    public Iterable<Text> getNewTexts() {
+        LOG.info("Returning fresh texts for user={}", userService.getCurrentUser().getEmail());
+
+        Long currentUserId = userService.getCurrentUser().getId();
+        List<Match> matches = matchService.getMatches(currentUserId);
+        List<Text> texts = repository.findAll();
+
+        // Returns all Text that are not in the matches from the current user
+        return texts.stream()
+                .filter(text ->  text.getAuthor().getId() != currentUserId
+                        && matches.stream().noneMatch(match -> text.getAuthor().equals(match.getMatchUser())
+                        || text.getAuthor().equals(match.getInitUser())))
+                .collect(Collectors.toList());
     }
 
     public long addOrReplaceText(Text newText) {

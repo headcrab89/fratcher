@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MatchService {
     private static final Logger LOG = LoggerFactory.getLogger(MatchService.class);
@@ -17,7 +19,7 @@ public class MatchService {
     @Autowired
     private UserService userService;
 
-    public Iterable<Match> getMatches (Long userId) {
+    public List<Match> getMatches (Long userId) {
         return repository.findByUserId(userId);
     }
 

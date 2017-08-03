@@ -23,8 +23,8 @@ public class TextController {
     private UserService userService;
 
     @RequestMapping(value = "api/text", method = RequestMethod.GET)
-    public Iterable<Text> getTextList() {
-        return textService.getTexts();
+    public ResponseEntity<Object> getNewTextList() {
+        return ResponseEntity.ok(textService.getNewTexts());
     }
 
     @RequestMapping(value = "api/text", method = RequestMethod.POST)
@@ -41,8 +41,8 @@ public class TextController {
     }
 
     @RequestMapping(value = "api/text/{id}", method = RequestMethod.GET)
-    public Text getText(@PathVariable Long id) {
-        return textService.getText(id);
+    public ResponseEntity<Object> getText(@PathVariable Long id) {
+        return ResponseEntity.ok(textService.getText(id));
     }
 
     @RequestMapping(value = "api/text/{id}", method = RequestMethod.DELETE)
