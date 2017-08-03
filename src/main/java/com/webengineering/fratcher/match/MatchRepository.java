@@ -8,13 +8,12 @@ import org.springframework.data.repository.query.Param;
 
 public interface MatchRepository extends CrudRepository<Match, Long> {
 
-    @Query("SELECT new Match_ (m.id, m.firstUser, m.secondUser, m.bothMatching) FROM Match_ m " +
-            "WHERE m.firstUser.id = :userId OR (m.secondUser.id = :userId AND m.bothMatching = true)")
-    Iterable<Match> findByUserId(@Param("userId") Long userId);
+//    @Query("SELECT new Match_ (m.id, m.initUser, m.matchUser, m.bothMatching) FROM Match_ m " +
+//            "WHERE m.initUser.id = :userId OR (m.matchUser.id = :userId AND m.bothMatching = true)")
+//    Iterable<Match> findByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT m FROM Match_ m WHERE (m.firstUser = :firstUser " +
-            "AND m.secondUser = :secondUser) OR (m.firstUser = :secondUser AND m.secondUser = :firstUser)")
-    Match findMatchForUsers(@Param("firstUser") User firstUser, @Param("secondUser") User secondUser);
+    @Query("SELECT m FROM Match_ m WHERE m.initUser = :matchUser AND m.matchUser = :initUser AND m.matchStatus='LIKE'")
+    Match findOtherMatch(@Param("initUser") User initUser, @Param("matchUser") User matchUser);
 
     @Query("SELECT m FROM Match_ m WHERE :comment MEMBER OF m.comments")
     Match findMatchForComment(@Param("comment") Comment comment);

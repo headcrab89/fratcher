@@ -17,24 +17,43 @@ public class MatchService {
     @Autowired
     private UserService userService;
 
-    public Iterable<Match> getMatches (Long userId) {
-        return repository.findByUserId(userId);
+//    public Iterable<Match> getMatches (Long userId) {
+//        return repository.findByUserId(userId);
+//    }
+
+    public Long addMatch (Match newMatch) {
+        newMatch.setInitUser(userService.getCurrentUser());
+
+        switch (newMatch.getMatchStatus()) {
+            case DISLIKE:
+                LOG.info("Add dislike. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
+                repository.save(newMatch);
+                return newMatch.getId();
+            case LIKE:
+                // check if the other user already likes this user
+                Match otherMatch = repository.findOtherMatch(userService.getCurrentUser(), newMatch.getMatchUser());
+
+                if (otherMatch == null) {
+                    LOG.info("Add like. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
+                    repository.save(newMatch);
+
+                    return newMatch.getId();
+                } else {
+                    LOG.info("Found a match. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
+                    otherMatch.setMatchStatus(MatchStatus.BOTH_LIKE);
+                    repository.save(otherMatch);
+                    return otherMatch.getId();
+                }
+
+            default:
+                LOG.info("Don't add match. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
+                return -1L;
+        }
     }
 
-    public void addMatch (Match newMatch) {
-        Match match = repository.findMatchForUsers(userService.getCurrentUser(), newMatch.getSecondUser());
-
-        if (match == null) {
-            newMatch.setFirstUser(userService.getCurrentUser());
-            newMatch.setBothMatching(false);
-
-            repository.save(newMatch);
-        } else {
-            if (!match.isBothMatching()) {
-                match.setBothMatching(true);
-                repository.save(match);
-            }
-        }
+    public Match getMatch(Long id) {
+        LOG.info("Retrieving match. user={}, id={}", userService.getCurrentUser().getEmail(), id);
+        return repository.findOne(id);
     }
 
 

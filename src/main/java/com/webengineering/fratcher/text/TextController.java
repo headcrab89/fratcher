@@ -23,7 +23,7 @@ public class TextController {
     private UserService userService;
 
     @RequestMapping(value = "api/text", method = RequestMethod.GET)
-    public Iterable<Text> getPostList() {
+    public Iterable<Text> getTextList() {
         return textService.getTexts();
     }
 

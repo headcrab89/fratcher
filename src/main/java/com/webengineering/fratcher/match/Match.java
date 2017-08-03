@@ -14,12 +14,13 @@ public class Match {
     private Long id;
 
     @ManyToOne(optional = false)
-    private User firstUser;
+    private User initUser;
 
     @ManyToOne(optional = false)
-    private User secondUser;
+    private User matchUser;
 
-    private boolean bothMatching;
+    @Enumerated(EnumType.STRING)
+    private MatchStatus matchStatus;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
@@ -29,11 +30,11 @@ public class Match {
         comments = new LinkedList<>();
     }
 
-    public Match(Long id, User firstUser, User secondUser, boolean bothMatching) {
+    public Match(Long id, User initUser, User matchUser, MatchStatus matchStatus) {
         this.id = id;
-        this.firstUser = firstUser;
-        this.secondUser = secondUser;
-        this.bothMatching = bothMatching;
+        this.initUser = initUser;
+        this.matchUser = matchUser;
+        this.matchStatus = matchStatus;
         comments = new LinkedList<>();
     }
 
@@ -53,37 +54,37 @@ public class Match {
         this.id = id;
     }
 
-    public User getFirstUser() {
-        return firstUser;
+    public User getInitUser() {
+        return initUser;
     }
 
-    public void setFirstUser(User firstUser) {
-        this.firstUser = firstUser;
+    public void setInitUser(User initUser) {
+        this.initUser = initUser;
     }
 
-    public User getSecondUser() {
-        return secondUser;
+    public User getMatchUser() {
+        return matchUser;
     }
 
-    public void setSecondUser(User secondUser) {
-        this.secondUser = secondUser;
+    public void setMatchUser(User matchUser) {
+        this.matchUser = matchUser;
     }
 
-    public boolean isBothMatching() {
-        return bothMatching;
+    public MatchStatus getMatchStatus() {
+        return matchStatus;
     }
 
-    public void setBothMatching(boolean bothMatching) {
-        this.bothMatching = bothMatching;
+    public void setMatchStatus(MatchStatus matchStatus) {
+        this.matchStatus = matchStatus;
     }
 
     @Override
     public String toString() {
         return "Match{" +
                 "id=" + id +
-                ", firstUser=" + firstUser +
-                ", secondUser=" + secondUser +
-                ", bothMatching=" + bothMatching +
+                ", initUser=" + initUser +
+                ", matchUser=" + matchUser +
+                ", matchStatus=" + matchStatus +
                 '}';
     }
 }
