@@ -23,15 +23,15 @@ public class MatchController {
     @Autowired
     private UserService userService;
 
-//    @RequestMapping(value = "/api/user/{userId}/match", method = RequestMethod.GET)
-//    public ResponseEntity<Object> getMatchFromUser(@PathVariable Long userId) {
-//
-//        if (userId != userService.getCurrentUser().getId()) {
-//           return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
-//
-//        return ResponseEntity.ok(matchService.getMatches(userId));
-//    }
+    @RequestMapping(value = "/api/user/{userId}/match", method = RequestMethod.GET)
+    public ResponseEntity<Object> getMatchesFromUser(@PathVariable Long userId) {
+
+        if (userId != userService.getCurrentUser().getId()) {
+           return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        return ResponseEntity.ok(matchService.getMatches(userId));
+    }
 
     @RequestMapping(value = "/api/match", method = RequestMethod.POST)
     public ResponseEntity<Object> addMatch(@RequestBody Match match) {
@@ -50,8 +50,16 @@ public class MatchController {
     }
 
     @RequestMapping(value = "api/match/{id}", method = RequestMethod.GET)
-    public Match getMatch(@PathVariable Long id) {
-        return matchService.getMatch(id);
+    public ResponseEntity<Object> getMatch(@PathVariable Long id) {
+        Match match = matchService.getMatch(id);
+
+        // An User can only see the match if it is his own match
+        if (match.getInitUser().equals(userService.getCurrentUser())
+                || (match.getMatchUser().equals(userService.getCurrentUser()) && match.getMatchStatus().equals(MatchStatus.BOTH_LIKE))) {
+            return ResponseEntity.ok(match);
+        }
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
 

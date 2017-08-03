@@ -17,9 +17,9 @@ public class MatchService {
     @Autowired
     private UserService userService;
 
-//    public Iterable<Match> getMatches (Long userId) {
-//        return repository.findByUserId(userId);
-//    }
+    public Iterable<Match> getMatches (Long userId) {
+        return repository.findByUserId(userId);
+    }
 
     public Long addMatch (Match newMatch) {
         newMatch.setInitUser(userService.getCurrentUser());
