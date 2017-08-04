@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 
+import User from "../util/User";
 
 class TextList extends React.Component {
     constructor(props) {
@@ -10,20 +11,22 @@ class TextList extends React.Component {
         }
     }
 
-    // This function is called before render() to initialize its state.
-    componentWillMount() {
-        axios.get('/api/text')
-            .then(({data}) => {
-                this.setState({
-                    texts: data
-                })
-            });
+    // This function is called after a refresh and before render() to initialize its state.
+    componentDidMount() {
+        if (User.isAuthenticated()) {
+            axios.get('/api/text')
+                .then(({data}) => {
+                    this.setState({
+                        texts: data
+                    })
+                });
+        }
     }
 
     likeText(user) {
         axios.post('/api/match', {matchUser: user, matchStatus: "LIKE"})
             .then(({data}) => {
-            console.log(data);
+                console.log(data);
             });
     }
 
@@ -48,12 +51,23 @@ class TextList extends React.Component {
 
 
     render() {
+        let component = null;
+
+        if (User.isAuthenticated()) {
+            component = <ul>
+                    {this.renderTexts()}
+                </ul>
+        } else {
+            component = <span>
+                User has to be logged in
+            </span>
+        }
+
+
         return (
             <div className="component">
                 <h1>Texts</h1>
-                <ul>
-                    {this.renderTexts()}
-                </ul>
+                {component}
             </div>
         );
     }
