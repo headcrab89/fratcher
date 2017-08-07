@@ -39,15 +39,20 @@ class TextList extends React.Component {
     }
 
     renderTexts() {
-        return this.state.texts.map((text => {
-            return (
-                <li key={text.id}>
-                    {text.id} {text.userText} {text.author.email}
-                    <span onClick={() => this.likeText(text.author)}>LIKE</span>
-                    <span onClick={() => this.notLikeText(text.author)}>DON'T LIKE</span>
-                </li>
-            );
-        }));
+
+        if (this.state.texts.length === 0) {
+          return <span>Currently there are no new texts available</span>
+        } else {
+            return this.state.texts.map((text => {
+                return (
+                    <li key={text.id}>
+                        {text.id} {text.userText} {text.author.email}
+                        <span onClick={() => this.likeText(text.author)}>LIKE</span>
+                        <span onClick={() => this.notLikeText(text.author)}>DON'T LIKE</span>
+                    </li>
+                );
+            }));
+        }
     }
 
 

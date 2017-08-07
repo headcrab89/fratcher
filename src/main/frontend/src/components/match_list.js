@@ -24,13 +24,17 @@ class MatchList extends React.Component {
     }
 
     renderMatchs() {
-        return this.state.matchs.map((match => {
-            return (
-                <li key={match.id}>
-                    {match.id} {match.initUser.id} {match.initUser.email} {match.matchUser.id} {match.matchUser.email} {match.matchStatus}
-                </li>
-            );
-        }));
+        if (this.state.matchs.length === 0) {
+            return <span>You have currently no matchs</span>
+        } else {
+            return this.state.matchs.map((match => {
+                return (
+                    <li key={match.id}>
+                        {match.id} {match.initUser.id} {match.initUser.email} {match.matchUser.id} {match.matchUser.email} {match.matchStatus}
+                    </li>
+                );
+            }));
+        }
     }
 
 
