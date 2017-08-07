@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 
 import User from "../util/User";
+import MatchStatus from "../util/MatchStatus";
 
 class TextList extends React.Component {
     constructor(props) {
@@ -24,14 +25,14 @@ class TextList extends React.Component {
     }
 
     likeText(user) {
-        axios.post('/api/match', {matchUser: user, matchStatus: "LIKE"})
+        axios.post('/api/match', {matchUser: user, matchStatus: MatchStatus.LIKE})
             .then(({data}) => {
                 console.log(data);
             });
     }
 
     notLikeText(user) {
-        axios.post('/api/match', {matchUser: user, matchStatus: "DISLIKE"})
+        axios.post('/api/match', {matchUser: user, matchStatus: MatchStatus.DISLIKE})
             .then(({data}) => {
                 console.log(data);
             });
