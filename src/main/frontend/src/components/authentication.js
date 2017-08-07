@@ -63,10 +63,7 @@ class Authentication extends React.Component {
                             user: User
                         }, {path: '/'});
 
-                        // Since we do not have the User as part of the component's state,
-                        // calling this.SetState() makes no sense. Instead we have to manually
-                        // force the component to update.
-                        this.forceUpdate();
+                        this.props.history.push("/match/find");
                         break;
 
                     case 401:
