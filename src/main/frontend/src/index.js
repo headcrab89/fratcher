@@ -6,6 +6,11 @@ import {HashRouter as Router, Link, Route, Switch} from "react-router-dom";
 import Authentication from "./components/authentication";
 import TextList from "./components/text_list";
 import MatchList from "./components/match_list";
+import MatchChat from "./components/match_chat";
+
+import User from "./util/User";
+
+User.isAuthenticated();
 
 ReactDOM.render(
     <CookiesProvider>
@@ -21,6 +26,7 @@ ReactDOM.render(
                 <Switch>
                     <Route path="/match/find" component={TextList} />
                     <Route path="/match/list" component={MatchList} />
+                    <Route path="/match/:id" component={MatchChat} />
                     <Route path="/" component={Authentication} />
                 </Switch>
             </div>
