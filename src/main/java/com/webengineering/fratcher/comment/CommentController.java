@@ -14,7 +14,6 @@ public class CommentController {
     }
 
     private static class NewComment {
-        public Long matchId;
         public String text;
     }
 
@@ -33,14 +32,14 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/api/match/{matchId}/comment", method = RequestMethod.POST)
-    public ResponseEntity<CommentCreated> addComment(@PathVariable Long matchid, @RequestBody NewComment newComment) {
+    public ResponseEntity<CommentCreated> addComment(@PathVariable Long matchId, @RequestBody NewComment newComment) {
         if (userService.isAnonymous()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        Long id = commentService.addComment(newComment.matchId, newComment.text);
+        Long id = commentService.addComment(matchId, newComment.text);
         CommentCreated commentCreated = new CommentCreated();
-        commentCreated.url = addressService.getServerURL() + "/api/match/" + matchid + "/comment/" + id;
+        commentCreated.url = addressService.getServerURL() + "/api/match/" + matchId + "/comment/" + id;
         return ResponseEntity.ok(commentCreated);
     }
 

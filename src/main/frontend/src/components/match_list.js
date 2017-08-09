@@ -41,13 +41,13 @@ class MatchList extends React.Component {
     }
 
     renderMatchs() {
-        if (this.state.matchs.get(MatchStatus.BOTH_LIKE) === undefined) {
+        if (this.state.matchs.length === 0 || this.state.matchs.get(MatchStatus.BOTH_LIKE) === undefined) {
             return <span>You have currently no matchs</span>
         } else {
             return this.state.matchs.get(MatchStatus.BOTH_LIKE).map((match => {
                 return (
-                    <Link to={`/match/${match.id}`}>
-                        <li key={match.id}>
+                    <Link to={`/match/${match.id}`} key={match.id}>
+                        <li>
                             {match.id} {match.initUser.id} {match.initUser.email} {match.matchUser.id} {match.matchUser.email} {match.matchStatus}
                         </li>
                     </Link>
@@ -57,7 +57,7 @@ class MatchList extends React.Component {
     }
 
     renderOpenMatchs() {
-        if (this.state.matchs.get(MatchStatus.LIKE) === undefined) {
+        if (this.state.matchs.length === 0 || this.state.matchs.get(MatchStatus.LIKE) === undefined) {
             return <span>You have currently no open matchs</span>
         } else {
             return this.state.matchs.get(MatchStatus.LIKE).map((match => {
@@ -71,7 +71,7 @@ class MatchList extends React.Component {
     }
 
     renderDislikeMatchs() {
-        if (this.state.matchs.get(MatchStatus.DISLIKE) === undefined) {
+        if (this.state.matchs.length === 0 || this.state.matchs.get(MatchStatus.DISLIKE) === undefined) {
             return <span>You have currently no users you don't like</span>
         } else {
             return this.state.matchs.get(MatchStatus.DISLIKE).map((match => {
@@ -87,7 +87,7 @@ class MatchList extends React.Component {
     render() {
         let component = null;
 
-        if (User.isAuthenticated() && this.state.matchs.length !== 0) {
+        if (User.isAuthenticated()) {
             component = <ul>
                 <li>Match
                     <ul>
