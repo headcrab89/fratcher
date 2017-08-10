@@ -52,6 +52,7 @@ class Authentication extends React.Component {
                             user: User
                         }, {path: '/'});
 
+                        this.props.updateAuthentication();
                         this.props.history.push("/match/find");
                         break;
 
@@ -67,14 +68,15 @@ class Authentication extends React.Component {
         User.reset();
         this.cookies.remove('auth');
         this.forceUpdate();
+        this.props.updateAuthentication();
     }
 
 
     render() {
-        let component = null;
+        let loginComponent = null;
         const {t} = this.props;
         if (User.isNotAuthenticated()) {
-            component =
+            loginComponent =
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         {t('email')}
@@ -88,8 +90,10 @@ class Authentication extends React.Component {
                     <input type="submit" value={t('submit')}/>
                 </form>
         } else {
-            component =
-                <span onClick={this.handleLogout}>{t('logout')}</span>
+            loginComponent =
+                <div>
+                    <button type="button" className="btn btn-danger" onClick={this.handleLogout}>{t('logout')}</button>
+                </div>
         }
 
         return (
@@ -97,7 +101,7 @@ class Authentication extends React.Component {
                 <h1>Authentication</h1>
                 {t('currentUser')}: {User.email || t('notLogedin')}
                 <p/>
-                {component}
+                {loginComponent}
                 <p/>
                 { this.state.error &&
                 <div className="error">

@@ -1,13 +1,17 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {translate} from "react-i18next";
 
 import User from "../util/User";
 
-class Navigation extends React.Component {
-    render() {
-        const {t} = this.props;
 
+// component communication doens' t work with translate (could not find a solution to this.
+// Therefore On this page will be no translate for now)
+class Navigation extends React.Component {
+    updateAuthentication() {
+        this.forceUpdate();
+    }
+
+    render() {
         return (
             <nav className="navbar navbar-inverse navbar-fixed-top">
                 <div className="container">
@@ -22,13 +26,15 @@ class Navigation extends React.Component {
                     </div>
                     <div id="navbar" className="collapse navbar-collapse">
                         <ul className="nav navbar-nav">
-                            <li><Link to="/match/find">{t('findMatch')}</Link></li>
-                            <li><Link to="/match/list">{t('listMatch')}</Link></li>
+                            <li><Link to="/match/find">finde neue Matchs</Link></li>
+                            <li><Link to="/match/list">deine Matchs</Link></li>
+                        </ul>
+                        <ul className="nav navbar-nav navbar-right">
                             { User.isNotAuthenticated() &&
-                                <li><Link to="/">{t('login')}</Link></li>
+                            <li><Link to="/">Login</Link></li>
                             }
                             { User.isAuthenticated() &&
-                            <li><Link to="/">{t('preferences')}</Link></li>
+                            <li><Link to="/">{User.email}</Link></li>
                             }
                         </ul>
                     </div>
@@ -38,4 +44,4 @@ class Navigation extends React.Component {
     }
 }
 
-export default translate()(Navigation);
+export default Navigation;
