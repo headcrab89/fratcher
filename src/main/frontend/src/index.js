@@ -5,6 +5,7 @@ import {I18nextProvider} from "react-i18next";
 import {HashRouter as Router, Link, Route, Switch} from "react-router-dom";
 
 import Authentication from "./components/authentication";
+import Navigation from "./components/navigation";
 import TextList from "./components/text_list";
 import MatchList from "./components/match_list";
 import MatchChat from "./components/match_chat";
@@ -18,13 +19,7 @@ ReactDOM.render(
         <I18nextProvider i18n={i18n}>
             <Router>
                 <div>
-                    <div className="menu">
-                        <Link to="/match/find">find match</Link>
-                        <Link to="/match/list">list match</Link>
-                        <Link to="/">Login</Link>
-                    </div>
-
-
+                    <Navigation/>
                     <Switch>
                         <Route path="/match/find" component={TextList} />
                         <Route path="/match/list" component={MatchList} />
