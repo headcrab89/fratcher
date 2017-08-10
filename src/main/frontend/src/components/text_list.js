@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import {translate} from "react-i18next";
 
 import User from "../util/User";
 import MatchStatus from "../util/MatchStatus";
@@ -38,17 +39,16 @@ class TextList extends React.Component {
             });
     }
 
-    renderTexts() {
-
+    renderTexts(t) {
         if (this.state.texts.length === 0) {
-          return <span>Currently there are no new texts available</span>
+          return <span>{t('noTexts')}</span>
         } else {
             return this.state.texts.map((text => {
                 return (
                     <li key={text.id}>
                         {text.id} {text.userText} {text.author.email}
-                        <span onClick={() => this.likeText(text.author)}>LIKE</span>
-                        <span onClick={() => this.notLikeText(text.author)}>DON'T LIKE</span>
+                        <button onClick={() => this.likeText(text.author)}>{t('likeText')}</button>
+                        <button onClick={() => this.notLikeText(text.author)}>{t('dislikeText')}</button>
                     </li>
                 );
             }));
@@ -58,14 +58,15 @@ class TextList extends React.Component {
 
     render() {
         let component = null;
+        const {t} = this.props;
 
         if (User.isAuthenticated()) {
             component = <ul>
-                    {this.renderTexts()}
+                    {this.renderTexts(t)}
                 </ul>
         } else {
             component = <span>
-                User has to be logged in
+                {t('loginText')}
             </span>
         }
 
@@ -80,4 +81,4 @@ class TextList extends React.Component {
 }
 
 
-export default TextList;
+export default translate()(TextList);

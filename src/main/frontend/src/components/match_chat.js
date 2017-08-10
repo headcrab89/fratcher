@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 
+import {translate} from "react-i18next";
+
 class MatchChat extends React.Component {
     constructor(props) {
         super();
@@ -38,13 +40,13 @@ class MatchChat extends React.Component {
             });
     }
 
-    renderComments(match) {
+    renderComments(t, match) {
         return match.comments.map((comment => {
             return (
                 <div key={comment.id}>
                     <hr/>
-                    <div>Author {comment.author.email}</div>
-                    <div>Created at {new Date(comment.createdAt).toISOString()}</div>
+                    <div>{t('author')} {comment.author.email}</div>
+                    <div>{t('createdAt')} {new Date(comment.createdAt).toISOString()}</div>
                     {comment.text}
                 </div>
             );
@@ -53,6 +55,7 @@ class MatchChat extends React.Component {
     }
 
     render() {
+        const {t} = this.props;
         const match = this.state.match;
 
         if (!match) {
@@ -63,7 +66,7 @@ class MatchChat extends React.Component {
           <div className="component">
               <h1>Match Chat</h1>
               <div>Chat von {match.initUser.email} und {match.matchUser.email}</div>
-              {this.renderComments(match)}
+              {this.renderComments(t, match)}
               <hr/>
               <form onSubmit={this.handleCommentSubmit}>
                   <label>
@@ -72,9 +75,11 @@ class MatchChat extends React.Component {
                   </label>
                   <input type="submit" value="Submit"/>
               </form>
+              <hr/>
+              Name: {t('applicationName')}
           </div>
         );
     }
 }
 
-export default MatchChat;
+export default translate()(MatchChat);

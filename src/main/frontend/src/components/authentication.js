@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import {withCookies} from "react-cookie";
+import {translate} from "react-i18next";
 
 import User from "../util/User";
 
@@ -71,35 +72,36 @@ class Authentication extends React.Component {
 
     render() {
         let component = null;
+        const {t} = this.props;
         if (User.isNotAuthenticated()) {
             component =
                 <form onSubmit={this.handleSubmit}>
                     <label>
-                        Email
+                        {t('email')}
                         <input type="text" name="email" value={this.state.email} onChange={this.handleEmailChange}/>
                     </label>
                     <label>
-                        Password
+                        {t('password')}
                         <input type="password" name="password" value={this.state.password}
                                onChange={this.handlePasswordChange}/>
                     </label>
-                    <input type="submit" value="Submit"/>
+                    <input type="submit" value={t('submit')}/>
                 </form>
         } else {
             component =
-                <span onClick={this.handleLogout}>Logout</span>
+                <span onClick={this.handleLogout}>{t('logout')}</span>
         }
 
         return (
             <div className="component">
                 <h1>Authentication</h1>
-                Current user: {User.email || 'not logged in'}
+                {t('currentUser')}: {User.email || t('notLogedin')}
                 <p/>
                 {component}
                 <p/>
                 { this.state.error &&
                 <div className="error">
-                    Login was not successful.
+                    {t('wrongLogin')}
                 </div>
                 }
             </div>
@@ -107,4 +109,4 @@ class Authentication extends React.Component {
     }
 }
 
-export default withCookies(Authentication);
+export default translate()(withCookies(Authentication));

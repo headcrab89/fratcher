@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import {Link} from "react-router-dom";
+import {translate} from "react-i18next";
 
 import User from "../util/User";
 import MatchStatus from "../util/MatchStatus";
@@ -40,9 +41,9 @@ class MatchList extends React.Component {
         return map;
     }
 
-    renderMatchs() {
+    renderMatchs(t) {
         if (this.state.matchs.length === 0 || this.state.matchs.get(MatchStatus.BOTH_LIKE) === undefined) {
-            return <span>You have currently no matchs</span>
+            return <span>{t('noMatchs')}</span>
         } else {
             return this.state.matchs.get(MatchStatus.BOTH_LIKE).map((match => {
                 return (
@@ -56,9 +57,9 @@ class MatchList extends React.Component {
         }
     }
 
-    renderOpenMatchs() {
+    renderOpenMatchs(t) {
         if (this.state.matchs.length === 0 || this.state.matchs.get(MatchStatus.LIKE) === undefined) {
-            return <span>You have currently no open matchs</span>
+            return <span>{t('noLikeMatch')}</span>
         } else {
             return this.state.matchs.get(MatchStatus.LIKE).map((match => {
                 return (
@@ -70,9 +71,9 @@ class MatchList extends React.Component {
         }
     }
 
-    renderDislikeMatchs() {
+    renderDislikeMatchs(t) {
         if (this.state.matchs.length === 0 || this.state.matchs.get(MatchStatus.DISLIKE) === undefined) {
-            return <span>You have currently no users you don't like</span>
+            return <span>{t('noDislikeMatch')}</span>
         } else {
             return this.state.matchs.get(MatchStatus.DISLIKE).map((match => {
                 return (
@@ -85,29 +86,30 @@ class MatchList extends React.Component {
     }
 
     render() {
+        const {t} = this.props;
         let component = null;
 
         if (User.isAuthenticated()) {
             component = <ul>
-                <li>Match
+                <li>{t('yourMatch')}
                     <ul>
-                        {this.renderMatchs()}
+                        {this.renderMatchs(t)}
                     </ul>
                 </li>
-                <li>currently open Matchs
+                <li>{t('yourOpenMatchs')}
                     <ul>
-                        {this.renderOpenMatchs()}
+                        {this.renderOpenMatchs(t)}
                     </ul>
                 </li>
-                <li> User you don't like
+                <li>{t('yourDislikeMatchs')}
                     <ul>
-                        {this.renderDislikeMatchs()}
+                        {this.renderDislikeMatchs(t)}
                     </ul>
                 </li>
             </ul>
         } else {
             component = <span>
-                User has to be logged in
+                {t('loginMatch')}
             </span>
         }
 
@@ -122,4 +124,4 @@ class MatchList extends React.Component {
 }
 
 
-export default MatchList;
+export default translate()(MatchList);

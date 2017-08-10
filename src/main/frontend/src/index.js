@@ -1,36 +1,39 @@
 import React from "react";
 import {CookiesProvider} from "react-cookie";
 import ReactDOM from "react-dom";
+import {I18nextProvider} from "react-i18next";
 import {HashRouter as Router, Link, Route, Switch} from "react-router-dom";
 
 import Authentication from "./components/authentication";
 import TextList from "./components/text_list";
 import MatchList from "./components/match_list";
 import MatchChat from "./components/match_chat";
-
+import i18n from "./i18n";
 import User from "./util/User";
 
 User.isAuthenticated();
 
 ReactDOM.render(
     <CookiesProvider>
-        <Router>
-            <div>
-                <div className="menu">
-                    <Link to="/match/find">find match</Link>
-                    <Link to="/match/list">list match</Link>
-                    <Link to="/">Login</Link>
+        <I18nextProvider i18n={i18n}>
+            <Router>
+                <div>
+                    <div className="menu">
+                        <Link to="/match/find">find match</Link>
+                        <Link to="/match/list">list match</Link>
+                        <Link to="/">Login</Link>
+                    </div>
+
+
+                    <Switch>
+                        <Route path="/match/find" component={TextList} />
+                        <Route path="/match/list" component={MatchList} />
+                        <Route path="/match/:id" component={MatchChat} />
+                        <Route path="/" component={Authentication} />
+                    </Switch>
                 </div>
-
-
-                <Switch>
-                    <Route path="/match/find" component={TextList} />
-                    <Route path="/match/list" component={MatchList} />
-                    <Route path="/match/:id" component={MatchChat} />
-                    <Route path="/" component={Authentication} />
-                </Switch>
-            </div>
-        </Router>
+            </Router>
+        </I18nextProvider>
     </CookiesProvider>,
     document.getElementById('root'));
 
