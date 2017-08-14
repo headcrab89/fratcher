@@ -43,14 +43,14 @@ class MatchList extends React.Component {
 
     renderMatchs(t) {
         if (this.state.matchs.length === 0 || this.state.matchs.get(MatchStatus.BOTH_LIKE) === undefined) {
-            return <span>{t('noMatchs')}</span>
+            return <p className="bg-warning warnText">{t('noMatchs')}</p>
         } else {
             return this.state.matchs.get(MatchStatus.BOTH_LIKE).map((match => {
                 return (
-                    <Link to={`/match/${match.id}`} key={match.id}>
-                        <li>
-                            {match.id} {match.initUser.id} {match.initUser.email} {match.matchUser.id} {match.matchUser.email} {match.matchStatus}
-                        </li>
+                    <Link to={`/match/${match.id}`} key={match.id} className="list-group-item">
+
+                        <h4 className="list-group-item-heading"> {match.initUser.id === User.id ? match.matchUser.email : match.initUser.email}</h4>
+                        {/*<p className="list-group-item-text">hier kommt der chat text </p>*/}
                     </Link>
                 );
             }));
@@ -59,13 +59,14 @@ class MatchList extends React.Component {
 
     renderOpenMatchs(t) {
         if (this.state.matchs.length === 0 || this.state.matchs.get(MatchStatus.LIKE) === undefined) {
-            return <span>{t('noLikeMatch')}</span>
+            return <p className="bg-warning warnText">{t('noLikeMatch')}</p>
         } else {
-            return this.state.matchs.get(MatchStatus.LIKE).map((match => {
+            return this.state.matchs.get(MatchStatus.LIKE).map((openMatch => {
                 return (
-                    <li key={match.id}>
-                        {match.id} {match.initUser.id} {match.initUser.email} {match.matchUser.id} {match.matchUser.email} {match.matchStatus}
-                    </li>
+                <a href="#" className="list-group-item list-group-item-warning" key={openMatch.id}>
+                    <h4 className="list-group-item-heading">{openMatch.matchUser.email}</h4>
+                    <p className="list-group-item-text">{t('revertMatch')}</p>
+                </a>
                 );
             }));
         }
@@ -73,13 +74,14 @@ class MatchList extends React.Component {
 
     renderDislikeMatchs(t) {
         if (this.state.matchs.length === 0 || this.state.matchs.get(MatchStatus.DISLIKE) === undefined) {
-            return <span>{t('noDislikeMatch')}</span>
+            return <p className="warnText bg-warning">{t('noDislikeMatch')}</p>
         } else {
-            return this.state.matchs.get(MatchStatus.DISLIKE).map((match => {
+            return this.state.matchs.get(MatchStatus.DISLIKE).map((dislikeMatch => {
                 return (
-                    <li key={match.id}>
-                        {match.id} {match.initUser.id} {match.initUser.email} {match.matchUser.id} {match.matchUser.email} {match.matchStatus}
-                    </li>
+                <a href="#" className="list-group-item list-group-item-danger" key={dislikeMatch.id}>
+                    <h4 className="list-group-item-heading">{dislikeMatch.matchUser.email}</h4>
+                    <p className="list-group-item-text">{t('revertMatch')}</p>
+                </a>
                 );
             }));
         }
@@ -90,23 +92,56 @@ class MatchList extends React.Component {
         let component = null;
 
         if (User.isAuthenticated()) {
-            component = <ul>
-                <li>{t('yourMatch')}
-                    <ul>
-                        {this.renderMatchs(t)}
-                    </ul>
-                </li>
-                <li>{t('yourOpenMatchs')}
-                    <ul>
-                        {this.renderOpenMatchs(t)}
-                    </ul>
-                </li>
-                <li>{t('yourDislikeMatchs')}
-                    <ul>
-                        {this.renderDislikeMatchs(t)}
-                    </ul>
-                </li>
-            </ul>
+            component = <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div className="panel panel-default">
+                    <div className="panel-heading" role="tab" id="headingOne">
+                        <h4 className="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                {t('yourMatch')}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div className="panel-body">
+                           <div className="list-group">
+                               {this.renderMatchs(t)}
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="panel panel-default">
+                    <div className="panel-heading" role="tab" id="headingTwo">
+                        <h4 className="panel-title">
+                            <a className="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                {t('yourOpenMatchs')}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" className="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div className="panel-body">
+                            <div className="list-group">
+                                {this.renderOpenMatchs(t)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="panel panel-default">
+                    <div className="panel-heading" role="tab" id="headingThree">
+                        <h4 className="panel-title">
+                            <a className="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                {t('yourDislikeMatchs')}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" className="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div className="panel-body">
+                            <div className="list-group">
+                                {this.renderDislikeMatchs(t)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         } else {
             component = <span>
                 {t('loginMatch')}

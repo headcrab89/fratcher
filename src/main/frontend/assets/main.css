@@ -40,3 +40,7 @@ body {
     height: 51px;
     margin-top: -15px;
 }
+
+.warnText {
+    padding: 15px;
+}
