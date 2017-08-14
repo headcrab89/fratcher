@@ -1,5 +1,5 @@
 body {
-    padding-top: 50px;
+    padding-top: 75px;
 }
 
 .component {
@@ -34,4 +34,9 @@ body {
     margin: 5px;
     text-decoration: none;
     color: gray;
+}
+
+.logoFratcher {
+    height: 51px;
+    margin-top: -15px;
 }

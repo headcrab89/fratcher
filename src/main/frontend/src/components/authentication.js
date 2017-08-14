@@ -76,19 +76,30 @@ class Authentication extends React.Component {
         let loginComponent = null;
         const {t} = this.props;
         if (User.isNotAuthenticated()) {
-            loginComponent =
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        {t('email')}
-                        <input type="text" name="email" value={this.state.email} onChange={this.handleEmailChange}/>
-                    </label>
-                    <label>
+            loginComponent = <form onSubmit={this.handleSubmit} className="form-horizontal">
+                <div className="form-group">
+                    <label className="col-sm-2">{t('email')}</label>
+                    <div className="col-sm-4">
+                        <input type="text" className="form-control"
+                               autoFocus={true}
+                               value={this.state.email}
+                               onChange={this.handleEmailChange}/>
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <label className="col-sm-2">
                         {t('password')}
-                        <input type="password" name="password" value={this.state.password}
-                               onChange={this.handlePasswordChange}/>
                     </label>
-                    <input type="submit" value={t('submit')}/>
-                </form>
+                    <div className="col-sm-4">
+                        <input type="password" name="password" className="form-control"
+                               value={this.state.password}
+                               onChange={this.handlePasswordChange}/>
+                    </div>
+                </div>
+                <input type="submit" className="btn btn-success" value="Submit"/>
+            </form>
+
         } else {
             loginComponent =
                 <div>

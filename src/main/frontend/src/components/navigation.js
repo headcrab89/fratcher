@@ -4,8 +4,8 @@ import {Link} from "react-router-dom";
 import User from "../util/User";
 
 
-// component communication doens' t work with translate (could not find a solution to this.
-// Therefore On this page will be no translate for now)
+// component communication doesn't work with translate (could not find a solution to this).
+// Therefore on this page will be no translation for now
 class Navigation extends React.Component {
     updateAuthentication() {
         this.forceUpdate();
@@ -22,7 +22,9 @@ class Navigation extends React.Component {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <Link to="/" className="navbar-brand">fratcher</Link>
+                        <Link to="/" className="navbar-brand">
+                            <img className="logoFratcher" alt="Brand" src="/assets/fratcherLogo.png" />
+                        </Link>
                     </div>
                     <div id="navbar" className="collapse navbar-collapse">
                         <ul className="nav navbar-nav">
