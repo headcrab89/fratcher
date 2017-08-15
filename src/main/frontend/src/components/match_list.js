@@ -55,7 +55,7 @@ class MatchList extends React.Component {
 
                     component = lastComment.author.email + ': ' +lastComment.text;
                 } else {
-                    component = 'Klicke hier um eine Nachricht zu schreiben';
+                    component = t('clickToWriteMessage');
                 }
 
                 return (
