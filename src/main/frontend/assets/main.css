@@ -44,3 +44,17 @@ body {
 .warnText {
     padding: 15px;
 }
+
+.textEllipsis {
+    text-align: justify;
+    text-overflow: ellipsis;
+    width: 83%;
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.dateRight {
+    position: relative;
+    top: -17px;
+}

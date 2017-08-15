@@ -46,11 +46,22 @@ class MatchList extends React.Component {
             return <p className="bg-warning warnText">{t('noMatchs')}</p>
         } else {
             return this.state.matchs.get(MatchStatus.BOTH_LIKE).map((match => {
+                let component;
+                let date;
+
+                if (match.comments.length > 0) {
+                    let lastComment = match.comments[match.comments.length -1];
+                    date = new Date(lastComment.createdAt).toDateString();
+
+                    component = lastComment.author.email + ': ' +lastComment.text;
+                } else {
+                    component = 'Klicke hier um eine Nachricht zu schreiben';
+                }
+
                 return (
                     <Link to={`/match/${match.id}`} key={match.id} className="list-group-item">
-
                         <h4 className="list-group-item-heading"> {match.initUser.id === User.id ? match.matchUser.email : match.initUser.email}</h4>
-                        {/*<p className="list-group-item-text">hier kommt der chat text </p>*/}
+                        <p className="textEllipsis list-group-item-text">{component}</p> <span className="dateRight badge">{date}</span>
                     </Link>
                 );
             }));

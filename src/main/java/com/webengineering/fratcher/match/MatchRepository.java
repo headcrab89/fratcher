@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface MatchRepository extends CrudRepository<Match, Long> {
 
-    @Query("SELECT new Match_ (m.id, m.initUser, m.matchUser, m.matchStatus) FROM Match_ m " +
+    @Query("SELECT m FROM Match_ m " +
             "WHERE m.initUser.id = :userId OR (m.matchUser.id = :userId AND m.matchStatus = 'BOTH_LIKE')")
     List<Match> findByUserId(@Param("userId") Long userId);
 

@@ -25,19 +25,6 @@ public class Match {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
-    public Match() {
-        // Default constructor for JPA.
-        comments = new LinkedList<>();
-    }
-
-    public Match(Long id, User initUser, User matchUser, MatchStatus matchStatus) {
-        this.id = id;
-        this.initUser = initUser;
-        this.matchUser = matchUser;
-        this.matchStatus = matchStatus;
-        comments = new LinkedList<>();
-    }
-
     public List<Comment> getComments() {
         return comments;
     }
@@ -76,6 +63,11 @@ public class Match {
 
     public void setMatchStatus(MatchStatus matchStatus) {
         this.matchStatus = matchStatus;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        comments = new LinkedList<>();
     }
 
     @Override
