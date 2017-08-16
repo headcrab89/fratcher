@@ -51,7 +51,7 @@ class MatchChat extends React.Component {
                 </div>
             );
 
-            }));
+        }));
     }
 
     render() {
@@ -63,21 +63,24 @@ class MatchChat extends React.Component {
         }
 
         return (
-          <div className="component">
-              <h1>Match Chat</h1>
-              <div>Chat von {match.initUser.email} und {match.matchUser.email}</div>
-              {this.renderComments(t, match)}
-              <hr/>
-              <form onSubmit={this.handleCommentSubmit}>
-                  <label>
-                      Comment
-                      <textarea name="comment" value={this.state.comment} onChange={this.handleCommentChange}/>
-                  </label>
-                  <input type="submit" value="Submit"/>
-              </form>
-              <hr/>
-              Name: {t('applicationName')}
-          </div>
+            <div className="component">
+                <h1>Match Chat</h1>
+                <div>Chat von {match.initUser.email} und {match.matchUser.email}</div>
+                {this.renderComments(t, match)}
+                <hr/>
+                <form onSubmit={this.handleCommentSubmit}>
+                    <div className="form-group">
+                        <textarea
+                            name="comment"
+                            value={this.state.comment}
+                            onChange={this.handleCommentChange}
+                            className="form-control"
+                        autoFocus={true}
+                        placeholder={t('writeMessage')}/>
+                    </div>
+                    <input type="submit" value={t('sendMessage')} className="btn btn-success"/>
+                </form>
+            </div>
         );
     }
 }

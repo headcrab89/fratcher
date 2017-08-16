@@ -9,6 +9,7 @@ import Navigation from "./components/navigation";
 import TextList from "./components/text_list";
 import MatchList from "./components/match_list";
 import MatchChat from "./components/match_chat";
+import Register from "./components/register";
 import i18n from "./i18n";
 import User from "./util/User";
 
@@ -35,6 +36,7 @@ class Root extends React.Component {
                     <Route path="/match/find" component={TextList} />
                     <Route path="/match/list" component={MatchList} />
                     <Route path="/match/:id" component={MatchChat} />
+                    <Route path="/register" component={Register}/>
                     <Route path="/"
                            render={(props) => (
                                <Authentication {...props} updateAuthentication={this.updateAuthentication}/> )}/>

@@ -19,6 +19,7 @@ class Authentication extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.cookies = this.props.cookies;
+        this.handleRegisterClick = this.handleRegisterClick.bind(this);
     }
 
     handleEmailChange(event) {
@@ -71,6 +72,9 @@ class Authentication extends React.Component {
         this.props.updateAuthentication();
     }
 
+    handleRegisterClick() {
+        this.props.history.push("/register");
+    }
 
     render() {
         let loginComponent = null;
@@ -97,19 +101,20 @@ class Authentication extends React.Component {
                                onChange={this.handlePasswordChange}/>
                     </div>
                 </div>
-                <input type="submit" className="btn btn-success" value="Submit"/>
+                <input type="submit" className="btn btn-success" value={t('loginButtonText')}/>
+                <button type="button" className="registerBtn btn btn-primary" onClick={this.handleRegisterClick}>{t('registerButtonText')}</button>
             </form>
 
         } else {
             loginComponent =
                 <div>
-                    <button type="button" className="btn btn-danger" onClick={this.handleLogout}>{t('logout')}</button>
+                    <button type="button" className=" btn btn-danger" onClick={this.handleLogout}>{t('logout')}</button>
                 </div>
         }
 
         return (
             <div className="component">
-                <h1>Authentication</h1>
+                <h1>{t('loginHeader')}</h1>
                 {t('currentUser')}: {User.email || t('notLogedin')}
                 <p/>
                 {loginComponent}
