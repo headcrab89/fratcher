@@ -9,6 +9,12 @@
   "password": "Passwort",
   "logout": "Abmelden",
 
+  "registerFratcher": "Hier kannst du dich bei fratcher registrieren",
+  "userNameAlreadySet": "Fehler bei der registrierung entweder ist diese Email Adresse bereits belegt oder das Passwortfeld ist leer",
+  "alreadyRegister": "Sie sind bereits registriert",
+  "repeatPassword": "Passwort wiederholen",
+  "passwordsDontMatch": "Passwörter nicht identisch oder leer",
+
   "author": "Autor",
   "createdAt": "Erstellt am",
   "writeMessage": "Nachricht schreiben",

@@ -66,4 +66,19 @@ public class UserService {
         LOG.debug("Retrieving user from database. user={}", email);
         return userRepository.findByEmailAndPassword(email, password);
     }
+
+    /**
+     * Retrieve a user with the given email and password.
+     *
+     * @param email    email
+     * @return the user or null if none could be found
+     */
+    public User getUserByMail (String email) {
+        LOG.debug("Retrieving user from database. user={}", email);
+        return userRepository.findByEmail(email);
+    }
+
+    public void saveUser (User user) {
+        userRepository.save(user);
+    }
 }

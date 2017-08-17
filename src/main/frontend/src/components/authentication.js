@@ -38,7 +38,7 @@ class Authentication extends React.Component {
             // We allow a status code of 401 (unauthorized). Otherwise it is interpreted as an error and we can't
             // check the HTTP status code.
             validateStatus: (status) => {
-                return (status >= 200 && status < 300) || status == 401
+                return (status >= 200 && status < 300) || status == 401;
             }
         })
             .then(({data, status}) => {
@@ -120,9 +120,7 @@ class Authentication extends React.Component {
                 {loginComponent}
                 <p/>
                 { this.state.error &&
-                <div className="error">
-                    {t('wrongLogin')}
-                </div>
+                    <div className="alert alert-danger" role="alert">{t('wrongLogin')}</div>
                 }
             </div>
         );

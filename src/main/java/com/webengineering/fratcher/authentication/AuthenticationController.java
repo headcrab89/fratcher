@@ -28,4 +28,21 @@ public class AuthenticationController {
         }
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "register", method = RequestMethod.POST)
+    public ResponseEntity<AuthenticationService.UserToken> register(@RequestBody UserLogin userLogin) {
+        Boolean usernameIsNew = service.register(userLogin.email, userLogin.password);
+
+        if (usernameIsNew == false || userLogin.password.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        AuthenticationService.UserToken token = service.login(userLogin.email, userLogin.password);
+
+        if (token == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(token, HttpStatus.OK);
+    }
 }

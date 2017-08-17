@@ -31,6 +31,24 @@ public class AuthenticationService {
         public String token;
     }
 
+    public Boolean register (String email, String password) {
+        User user = userService.getUserByMail(email);
+
+        if (user != null) {
+            LOG.info("User already exists. user={}", email);
+            return false;
+        } else {
+            String hashedPassword = hashPassword(password);
+            user = new User();
+            user.setEmail(email);
+            user.setPassword(hashedPassword);
+
+            userService.saveUser(user);
+
+            return true;
+        }
+    }
+
     /**
      * Create a JWT token and additional user information if the user's credentails are valid.
      *
