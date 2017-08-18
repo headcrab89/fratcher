@@ -13,4 +13,7 @@ public interface TextRepository extends CrudRepository<Text, Long> {
 
     @Query("SELECT t from Text t WHERE t.author = :user")
     Text findByUser(@Param("user") User user);
+
+    @Query("SELECT t from Text t WHERE t.author.id = :userId")
+    Text findByUserId (@Param("userId") Long userId);
 }

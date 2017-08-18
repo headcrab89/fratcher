@@ -11,15 +11,21 @@ class Authentication extends React.Component {
         this.state = {
             email: '',
             password: '',
-            error: undefined
+            error: undefined,
+            text: '',
+            newText: '',
+            textChangeActive: false
         };
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleUserTextChange = this.handleUserTextChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTextChangeSubmit = this.handleTextChangeSubmit.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.cookies = this.props.cookies;
         this.handleRegisterClick = this.handleRegisterClick.bind(this);
+        this.activateTextChange = this.activateTextChange.bind(this);
     }
 
     handleEmailChange(event) {
@@ -31,6 +37,34 @@ class Authentication extends React.Component {
         this.setState({password: event.target.value});
     }
 
+    activateTextChange(event) {
+        this.setState({textChangeActive: (this.state.textChangeActive ? false : true)});
+    }
+
+    handleUserTextChange(event) {
+        this.setState({newText: event.target.value});
+    }
+
+    componentDidMount() {
+        if (User.isAuthenticated()) {
+            axios.get(`api/user/${User.id}/text`)
+                .then(({data}) => {
+                    this.setState({
+                        text: data
+                    })
+                });
+        }
+    }
+
+    handleTextChangeSubmit(event) {
+        event.preventDefault();
+        axios.post('api/text', {userText: this.state.newText})
+            .then(({data}) => {
+                this.componentDidMount();
+                this.setState({textChangeActive: false});
+            });
+
+    }
 
     handleSubmit(event) {
         event.preventDefault();
@@ -108,19 +142,57 @@ class Authentication extends React.Component {
         } else {
             loginComponent =
                 <div>
-                    <button type="button" className=" btn btn-danger" onClick={this.handleLogout}>{t('logout')}</button>
+                    <div className="panel panel-default">
+                        <div className="panel-heading">
+                            <h3 className="panel-title">{t('yourText')}:</h3>
+                        </div>
+                        <div className="panel-body">
+                            {
+                                !this.state.textChangeActive &&
+                                this.state.text.userText
+                            }
+                            {
+                                this.state.textChangeActive &&
+                                <form onSubmit={this.handleTextChangeSubmit} className="textBoxMargin form-horizontal">
+                                    <div className="form-group input-group">
+                                        <input type="text"
+                                               className="form-control"
+                                               autoFocus={true}
+                                               placeholder={this.state.text.userText}
+                                               value={this.state.newText}
+                                               onChange={this.handleUserTextChange}/>
+                                        <span className="input-group-btn">
+                                            <input className="btn btn-default" type="submit" value={t('save')} />
+                                        </span>
+                                    </div>
+                                </form>
+                            }
+
+                            {
+                                (!this.state.textChangeActive && this.state.text.length === 0) &&
+                                <div className="alert alert-warning" role="alert">{t('noText')}</div>
+                            }
+                        </div>
+
+                        <div className="panel-footer">
+                            <button type="button" className="btn btn-primary" onClick={this.activateTextChange}>
+                                <span className="glyphicon glyphicon-pencil" aria-hidden="true" />
+                            </button>
+                        </div>
+                    </div>
+                    <p/>
+                    <button type="button" className="btn btn-danger" onClick={this.handleLogout}>{t('logout')}</button>
                 </div>
         }
 
         return (
             <div className="component">
-                <h1>{t('loginHeader')}</h1>
-                {t('currentUser')}: {User.email || t('notLogedin')}
+                <h1>{User.email ? t('currentUser') +' ' +User.email : t('loginHeader')}</h1>
                 <p/>
                 {loginComponent}
                 <p/>
                 { this.state.error &&
-                    <div className="alert alert-danger" role="alert">{t('wrongLogin')}</div>
+                <div className="alert alert-danger" role="alert">{t('wrongLogin')}</div>
                 }
             </div>
         );

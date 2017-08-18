@@ -31,6 +31,15 @@ public class TextController {
         return ResponseEntity.ok(textService.getNewTexts());
     }
 
+    @RequestMapping(value = "api/user/{userId}/text", method = RequestMethod.GET)
+    public ResponseEntity<Text> getUserText(@PathVariable Long userId) {
+        if (userService.isAnonymous()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        return ResponseEntity.ok(textService.getTextByUserId(userId));
+    }
+
     @RequestMapping(value = "api/text", method = RequestMethod.POST)
     public ResponseEntity<Object> addOrReplaceText(@RequestBody Text text) {
 
@@ -46,11 +55,20 @@ public class TextController {
 
     @RequestMapping(value = "api/text/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> getText(@PathVariable Long id) {
+        if (userService.isAnonymous()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         return ResponseEntity.ok(textService.getText(id));
     }
 
     @RequestMapping(value = "api/text/{id}", method = RequestMethod.DELETE)
     public void deleteText(@PathVariable Long id) {
+
+        if (userService.isAnonymous()) {
+            return;
+        }
+
         textService.deleteText(id);
     }
 }

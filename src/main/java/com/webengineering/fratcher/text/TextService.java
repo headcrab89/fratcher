@@ -40,6 +40,13 @@ public class TextService {
                 .collect(Collectors.toList());
     }
 
+    public Text getTextByUserId(Long userId) {
+
+        Text userText = repository.findByUserId(userId);
+
+        return userText;
+    }
+
     public long addOrReplaceText(Text newText) {
         // If the current user has no text he can create one, otherwise the text will be replaced
         Text text = repository.findByUser(userService.getCurrentUser());

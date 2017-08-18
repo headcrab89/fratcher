@@ -49,3 +49,13 @@ body {
 .registerBtn {
     margin-left: 15px;
 }
+
+.changeBtn {
+    float: right;
+    margin-top: 18px;
+}
+
+.textBoxMargin {
+    margin-right: 10px;
+    margin-left: 10px;
+}
