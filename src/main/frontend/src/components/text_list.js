@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import {translate} from "react-i18next";
+import {Button, Modal} from "react-bootstrap";
 
 import User from "../util/User";
 import MatchStatus from "../util/MatchStatus";
@@ -9,8 +10,13 @@ class TextList extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            texts: []
+            texts: [],
+            askChat: false,
+            match: ''
         }
+
+        this.askChat = this.askChat.bind(this);
+        this.removeText = this.removeText.bind(this);
     }
 
     // This function is called after a refresh and before render() to initialize its state.
@@ -25,11 +31,25 @@ class TextList extends React.Component {
         }
     }
 
+    askChat() {
+        this.setState({askChat: true});
+    }
+
+    gotoChat() {
+        // console.log(this.state.match.id);
+        this.props.history.push(`/match/${this.state.match.id}`);
+    }
+
     likeText(user) {
         axios.post('/api/match', {matchUser: user, matchStatus: MatchStatus.LIKE})
             .then(({data}) => {
-                console.log(data);
-                this.removeText();
+                this.setState({match: data});
+
+                if (this.state.match.status === MatchStatus.BOTH_LIKE) {
+                    this.askChat();
+                } else {
+                    this.removeText();
+                }
             });
     }
 
@@ -42,6 +62,7 @@ class TextList extends React.Component {
     }
 
     removeText() {
+        this.setState({askChat: false});
         this.state.texts.splice(0, 1);
         this.forceUpdate();
     }
@@ -94,10 +115,31 @@ class TextList extends React.Component {
             </span>
         }
 
-
         return (
             <div className="component">
                 {component}
+
+                { this.state.askChat &&
+                <Modal.Dialog>
+                    <Modal.Header>
+                        <Modal.Title>{t('youHaveMatch')}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {t('wantToChat', {name: this.state.texts[0].author.email})}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={() => {
+                            this.removeText()
+                        }
+                        }>Später</Button>
+                        <Button
+                            onClick={() => {
+                                this.gotoChat()
+                            }}
+                            bsStyle="primary">Okay</Button>
+                    </Modal.Footer>
+                </Modal.Dialog>
+                }
             </div>
         );
     }

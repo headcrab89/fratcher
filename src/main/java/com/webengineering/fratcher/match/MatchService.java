@@ -23,14 +23,14 @@ public class MatchService {
         return repository.findByUserId(userId);
     }
 
-    public Long addMatch (Match newMatch) {
+    public Match addMatch (Match newMatch) {
         newMatch.setInitUser(userService.getCurrentUser());
 
         switch (newMatch.getMatchStatus()) {
             case DISLIKE:
                 LOG.info("Add dislike. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
                 repository.save(newMatch);
-                return newMatch.getId();
+                return newMatch;
             case LIKE:
                 // check if the other user already likes this user
                 Match otherMatch = repository.findOtherMatch(userService.getCurrentUser(), newMatch.getMatchUser());
@@ -39,17 +39,17 @@ public class MatchService {
                     LOG.info("Add like. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
                     repository.save(newMatch);
 
-                    return newMatch.getId();
+                    return newMatch;
                 } else {
                     LOG.info("Found a match. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
                     otherMatch.setMatchStatus(MatchStatus.BOTH_LIKE);
                     repository.save(otherMatch);
-                    return otherMatch.getId();
+                    return otherMatch;
                 }
 
             default:
                 LOG.info("Don't add match. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
-                return -1L;
+                return null;
         }
     }
 

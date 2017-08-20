@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 public class MatchController {
 
     private static class MatchCreated {
-        public String url;
+        public Long id;
+        public MatchStatus status;
     }
 
     @Autowired
@@ -42,9 +43,10 @@ public class MatchController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        long matchId = matchService.addMatch(match);
+        Match newMatch = matchService.addMatch(match);
         MatchCreated matchCreated = new MatchCreated();
-        matchCreated.url = addressService.getServerURL() +"api/match/" + matchId;
+        matchCreated.id = newMatch.getId();
+        matchCreated.status = newMatch.getMatchStatus();
 
         return ResponseEntity.ok(matchCreated);
     }

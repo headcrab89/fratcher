@@ -37,6 +37,8 @@
   "likeText": "Ich mag den Text",
   "loginText": "Sie müssen eingeloggt sein um die Texte sehen zu können",
   "noTexts": "Zurzeit sind keine neuen Texte verfügbar. Versuch es später noch einmal.",
+  "youHaveMatch": "Du hast einen Match",
+  "wantToChat": "Möchtest du mit {{name}} chatten?",
 
   "submit": "Anmelden",
   "login": "Login",
