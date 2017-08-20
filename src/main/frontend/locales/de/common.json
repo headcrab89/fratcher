@@ -36,7 +36,7 @@
   "dislikeText": "Ich mag den Text nicht",
   "likeText": "Ich mag den Text",
   "loginText": "Sie müssen eingeloggt sein um die Texte sehen zu können",
-  "noTexts": "Zurzeit sind keine neuen Texte verfügbar",
+  "noTexts": "Zurzeit sind keine neuen Texte verfügbar. Versuch es später noch einmal.",
 
   "submit": "Anmelden",
   "login": "Login",

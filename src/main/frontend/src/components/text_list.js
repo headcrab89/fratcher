@@ -29,6 +29,7 @@ class TextList extends React.Component {
         axios.post('/api/match', {matchUser: user, matchStatus: MatchStatus.LIKE})
             .then(({data}) => {
                 console.log(data);
+                this.removeText();
             });
     }
 
@@ -36,22 +37,45 @@ class TextList extends React.Component {
         axios.post('/api/match', {matchUser: user, matchStatus: MatchStatus.DISLIKE})
             .then(({data}) => {
                 console.log(data);
+                this.removeText();
             });
+    }
+
+    removeText() {
+        this.state.texts.splice(0, 1);
+        this.forceUpdate();
     }
 
     renderTexts(t) {
         if (this.state.texts.length === 0) {
-          return <span>{t('noTexts')}</span>
+            return <div className="alert alert-warning" role="alert">{t('noTexts')}</div>
         } else {
-            return this.state.texts.map((text => {
-                return (
-                    <li key={text.id}>
-                        {text.id} {text.userText} {text.author.email}
-                        <button onClick={() => this.likeText(text.author)}>{t('likeText')}</button>
-                        <button onClick={() => this.notLikeText(text.author)}>{t('dislikeText')}</button>
-                    </li>
-                );
-            }));
+            var text = this.state.texts[0];
+
+            return <div className="jumbotron">
+                <blockquote>
+                    <p>{text.userText}</p>
+                    <footer>{text.author.email}</footer>
+                </blockquote>
+                <div className="centerElement">
+                    <button type="button"
+                            className="btn btn-danger btn-lg btnMargin"
+                            data-toggle="tooltip"
+                            data-placement="bottom"
+                            title={t('dislikeText')}
+                            onClick={() => this.notLikeText(text.author)}>
+                        <span className="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                    </button>
+                    <button type="button"
+                            className="btn btn-primary btn-lg btnMargin"
+                            data-toggle="tooltip"
+                            data-placement="bottom"
+                            title={t('likeText')}
+                            onClick={() => this.likeText(text.author)}>
+                        <span className="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
         }
     }
 
@@ -62,8 +86,8 @@ class TextList extends React.Component {
 
         if (User.isAuthenticated()) {
             component = <ul>
-                    {this.renderTexts(t)}
-                </ul>
+                {this.renderTexts(t)}
+            </ul>
         } else {
             component = <span>
                 {t('loginText')}
@@ -73,7 +97,6 @@ class TextList extends React.Component {
 
         return (
             <div className="component">
-                <h1>Texts</h1>
                 {component}
             </div>
         );
