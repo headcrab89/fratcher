@@ -39,6 +39,8 @@
   "noTexts": "Zurzeit sind keine neuen Texte verfügbar. Versuch es später noch einmal.",
   "youHaveMatch": "Du hast einen Match",
   "wantToChat": "Möchtest du mit {{name}} chatten?",
+  "later": "Später",
+  "okay": "Okay",
 
   "submit": "Anmelden",
   "login": "Login",

@@ -131,12 +131,12 @@ class TextList extends React.Component {
                         <Button onClick={() => {
                             this.removeText()
                         }
-                        }>Später</Button>
+                        }>{t('later')}</Button>
                         <Button
                             onClick={() => {
                                 this.gotoChat()
                             }}
-                            bsStyle="primary">Okay</Button>
+                            bsStyle="primary">{t('okay')}</Button>
                     </Modal.Footer>
                 </Modal.Dialog>
                 }
