@@ -163,15 +163,13 @@ class MatchList extends React.Component {
                 </div>
             </div>
         } else {
-            component = <span>
-                {t('loginMatch')}
-            </span>
+            component = <div className="alert alert-danger" role="alert">{t('loginMatch')}</div>
         }
 
 
         return (
             <div className="component">
-                <h1>Matchs</h1>
+                <h1>{t('yourMatch')}</h1>
                 {component}
             </div>
         );

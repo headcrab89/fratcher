@@ -18,9 +18,6 @@ class Navigation extends React.Component {
                     <div className="navbar-header">
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse"
                                 data-target="#navbar">
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
                         </button>
                         <Link to="/" className="navbar-brand">
                             <img className="logoFratcher" alt="Brand" src="/assets/fratcherLogo.png" />
@@ -28,8 +25,13 @@ class Navigation extends React.Component {
                     </div>
                     <div id="navbar" className="collapse navbar-collapse">
                         <ul className="nav navbar-nav">
+                            { User.isAuthenticated() &&
                             <li><Link to="/match/find">finde neue Matchs</Link></li>
+                            }
+
+                            { User.isAuthenticated() &&
                             <li><Link to="/match/list">deine Matchs</Link></li>
+                            }
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             { User.isNotAuthenticated() &&

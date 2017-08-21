@@ -109,9 +109,7 @@ class TextList extends React.Component {
                 {this.renderTexts(t)}
             </ul>
         } else {
-            component = <span>
-                {t('loginText')}
-            </span>
+            component = <div className="alert alert-danger" role="alert">{t('loginText')}</div>
         }
 
         return (

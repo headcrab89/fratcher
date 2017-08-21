@@ -123,10 +123,7 @@ class Register extends React.Component {
             </form>
 
         } else {
-            registerComponent =
-                <div>
-                    {t('alreadyRegister')}
-                </div>
+            registerComponent = <div className="alert alert-danger" role="alert">{t('alreadyRegister')}</div>
         }
 
         return (
