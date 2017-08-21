@@ -58,6 +58,10 @@ public class MatchService {
         return repository.findOne(id);
     }
 
+    public void deleteMatch (Long id) {
+        LOG.info("Deleting match. user={}, id={}", userService.getCurrentUser().getEmail(), id);
+        repository.delete(id);
+    }
 
     public void removeComment(Comment comment) {
         LOG.debug("Trying to remove comment. id={}", comment.getId());

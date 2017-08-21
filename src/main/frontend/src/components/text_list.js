@@ -56,7 +56,6 @@ class TextList extends React.Component {
     notLikeText(user) {
         axios.post('/api/match', {matchUser: user, matchStatus: MatchStatus.DISLIKE})
             .then(({data}) => {
-                console.log(data);
                 this.removeText();
             });
     }

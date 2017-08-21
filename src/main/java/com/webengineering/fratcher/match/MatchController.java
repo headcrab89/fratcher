@@ -65,8 +65,17 @@ public class MatchController {
     }
 
 
-//    @RequestMapping(value = "/api/match/{id}", method = RequestMethod.DELETE)
-//    public void deleteMatch(@PathVariable Long id) {
-//        // TODO ML
-//    }
+    @RequestMapping(value = "/api/match/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deleteMatch(@PathVariable Long id) {
+        Match match = matchService.getMatch(id);
+
+        if (match.getMatchStatus().equals(MatchStatus.BOTH_LIKE) ||
+                !match.getInitUser().equals(userService.getCurrentUser())) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        matchService.deleteMatch(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

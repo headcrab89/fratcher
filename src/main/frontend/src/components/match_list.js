@@ -12,6 +12,8 @@ class MatchList extends React.Component {
         this.state = {
             matchs: []
         }
+
+        this.deleteMatch = this.deleteMatch.bind(this);
     }
 
     // This function is called after a refresh and before render() to initialize its state.
@@ -39,6 +41,13 @@ class MatchList extends React.Component {
             }
         });
         return map;
+    }
+
+    deleteMatch (id) {
+        axios.delete(`/api/match/${id}`)
+            .then(({data}) => {
+            this.componentDidMount();
+            });
     }
 
     renderMatchs(t) {
@@ -74,7 +83,7 @@ class MatchList extends React.Component {
         } else {
             return this.state.matchs.get(MatchStatus.LIKE).map((openMatch => {
                 return (
-                <a href="#" className="list-group-item list-group-item-warning" key={openMatch.id}>
+                <a onClick={() => this.deleteMatch(openMatch.id)} className="list-group-item list-group-item-warning" key={openMatch.id}>
                     <h4 className="list-group-item-heading">{openMatch.matchUser.email}</h4>
                     <p className="list-group-item-text">{t('revertMatch')}</p>
                 </a>
@@ -89,7 +98,7 @@ class MatchList extends React.Component {
         } else {
             return this.state.matchs.get(MatchStatus.DISLIKE).map((dislikeMatch => {
                 return (
-                <a href="#" className="list-group-item list-group-item-danger" key={dislikeMatch.id}>
+                <a onClick={() => this.deleteMatch(dislikeMatch.id)} className="list-group-item list-group-item-danger" key={dislikeMatch.id}>
                     <h4 className="list-group-item-heading">{dislikeMatch.matchUser.email}</h4>
                     <p className="list-group-item-text">{t('revertMatch')}</p>
                 </a>
