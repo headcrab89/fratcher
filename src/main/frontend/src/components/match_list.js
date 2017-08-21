@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import {Link} from "react-router-dom";
 import {translate} from "react-i18next";
+import moment from "moment";
 
 import User from "../util/User";
 import MatchStatus from "../util/MatchStatus";
@@ -60,7 +61,7 @@ class MatchList extends React.Component {
 
                 if (match.comments.length > 0) {
                     let lastComment = match.comments[match.comments.length -1];
-                    date = new Date(lastComment.createdAt).toDateString();
+                    date = moment(lastComment.createdAt).format("D.MM.YY H:mm")
 
                     component = lastComment.author.email + ': ' +lastComment.text;
                 } else {

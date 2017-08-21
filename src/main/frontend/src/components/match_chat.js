@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
+import moment from "moment";
 
+import User from "../util/User";
 import {translate} from "react-i18next";
 
 class MatchChat extends React.Component {
@@ -43,11 +45,17 @@ class MatchChat extends React.Component {
     renderComments(t, match) {
         return match.comments.map((comment => {
             return (
-                <div key={comment.id}>
-                    <hr/>
-                    <div>{t('author')} {comment.author.email}</div>
-                    <div>{t('createdAt')} {new Date(comment.createdAt).toISOString()}</div>
-                    {comment.text}
+                <div className="media" key={comment.id}>
+                    <div className="media-left media-middle">
+                        <div className="circle media-object">
+                            <span>{comment.author.email[0]}</span>
+                        </div>
+                    </div>
+                    <div className="media-body">
+                        <span className="chatDate dateRight badge">{moment(comment.createdAt).format("D.MM.YY H:mm")}</span>
+                        <h4 className="media-heading">{comment.author.email}</h4>
+                        <p className="bg-info warnText">{comment.text}</p>
+                    </div>
                 </div>
             );
 
@@ -62,10 +70,13 @@ class MatchChat extends React.Component {
             return <div></div>
         }
 
+        const chatUser = User.id === match.initUser.id ? match.matchUser : match.initUser;
+
         return (
             <div className="component">
-                <h1>Match Chat</h1>
-                <div>Chat von {match.initUser.email} und {match.matchUser.email}</div>
+                <div className="page-header">
+                    <h1>{chatUser.email} <small></small></h1>
+                </div>
                 {this.renderComments(t, match)}
                 <hr/>
                 <form onSubmit={this.handleCommentSubmit}>
@@ -75,8 +86,8 @@ class MatchChat extends React.Component {
                             value={this.state.comment}
                             onChange={this.handleCommentChange}
                             className="form-control"
-                        autoFocus={true}
-                        placeholder={t('writeMessage')}/>
+                            autoFocus={true}
+                            placeholder={t('writeMessage')}/>
                     </div>
                     <input type="submit" value={t('sendMessage')} className="btn btn-success"/>
                 </form>
