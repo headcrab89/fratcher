@@ -72,7 +72,7 @@ class TextList extends React.Component {
         } else {
             var text = this.state.texts[0];
 
-            return <div className="jumbotron">
+            return <div className="blueBackground jumbotron">
                 <blockquote>
                     <p>{text.userText}</p>
                     <footer>{text.author.email}</footer>

@@ -128,8 +128,9 @@ class Register extends React.Component {
 
         return (
             <div className="component">
-                <p/>
-                <h1>{t('registerFratcher')}</h1>
+                <div className="page-header">
+                    <h1>{t('registerFratcher')}</h1>
+                </div>
                 {registerComponent}
                 <p/>
                 { this.state.error &&

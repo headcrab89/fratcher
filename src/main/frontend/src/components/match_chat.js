@@ -91,6 +91,7 @@ class MatchChat extends React.Component {
                     </div>
                     <input type="submit" value={t('sendMessage')} className="btn btn-success"/>
                 </form>
+                <p/>
             </div>
         );
     }

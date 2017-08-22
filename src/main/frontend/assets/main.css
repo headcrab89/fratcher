@@ -83,3 +83,7 @@ body {
     top: 4px;
     float: right;
 }
+
+.blueBackground {
+    background-color: #d9edf7 !important;
+}

@@ -115,7 +115,7 @@ class MatchList extends React.Component {
         if (User.isAuthenticated()) {
             component = <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 <div className="panel panel-default">
-                    <div className="panel-heading" role="tab" id="headingOne">
+                    <div className="blueBackground panel-heading" role="tab" id="headingOne">
                         <h4 className="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 {t('yourMatch')}
@@ -131,7 +131,7 @@ class MatchList extends React.Component {
                     </div>
                 </div>
                 <div className="panel panel-default">
-                    <div className="panel-heading" role="tab" id="headingTwo">
+                    <div className="blueBackground panel-heading" role="tab" id="headingTwo">
                         <h4 className="panel-title">
                             <a className="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 {t('yourOpenMatchs')}
@@ -147,7 +147,7 @@ class MatchList extends React.Component {
                     </div>
                 </div>
                 <div className="panel panel-default">
-                    <div className="panel-heading" role="tab" id="headingThree">
+                    <div className="blueBackground panel-heading" role="tab" id="headingThree">
                         <h4 className="panel-title">
                             <a className="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 {t('yourDislikeMatchs')}
@@ -170,7 +170,9 @@ class MatchList extends React.Component {
 
         return (
             <div className="component">
-                <h1>{t('yourMatch')}</h1>
+                <div className="page-header">
+                    <h1>{t('yourMatch')}</h1>
+                </div>
                 {component}
             </div>
         );

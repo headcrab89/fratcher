@@ -143,7 +143,7 @@ class Authentication extends React.Component {
             loginComponent =
                 <div>
                     <div className="panel panel-default">
-                        <div className="panel-heading">
+                        <div className="blueBackground panel-heading">
                             <h3 className="panel-title">{t('yourText')}:</h3>
                         </div>
                         <div className="panel-body">
@@ -174,7 +174,7 @@ class Authentication extends React.Component {
                             }
                         </div>
 
-                        <div className="panel-footer">
+                        <div className="blueBackground panel-footer">
                             <button type="button" className="btn btn-primary" onClick={this.activateTextChange}>
                                 <span className="glyphicon glyphicon-pencil" aria-hidden="true" />
                             </button>
@@ -187,7 +187,9 @@ class Authentication extends React.Component {
 
         return (
             <div className="component">
-                <h1>{User.email ? t('currentUser') +' ' +User.email : t('loginHeader')}</h1>
+                <div className="page-header">
+                    <h1>{User.email ? t('currentUser') +' ' +User.email : t('loginHeader')}</h1>
+                </div>
                 <p/>
                 {loginComponent}
                 <p/>
