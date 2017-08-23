@@ -28,7 +28,7 @@ public class MatchService {
 
         switch (newMatch.getMatchStatus()) {
             case DISLIKE:
-                LOG.info("Add dislike. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
+                LOG.info("Add dislike. initUser={}, matchUser={}", userService.getCurrentUser().getUserName(), newMatch.getMatchUser().getUserName());
                 repository.save(newMatch);
                 return newMatch;
             case LIKE:
@@ -36,30 +36,30 @@ public class MatchService {
                 Match otherMatch = repository.findOtherMatch(userService.getCurrentUser(), newMatch.getMatchUser());
 
                 if (otherMatch == null) {
-                    LOG.info("Add like. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
+                    LOG.info("Add like. initUser={}, matchUser={}", userService.getCurrentUser().getUserName(), newMatch.getMatchUser().getUserName());
                     repository.save(newMatch);
 
                     return newMatch;
                 } else {
-                    LOG.info("Found a match. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
+                    LOG.info("Found a match. initUser={}, matchUser={}", userService.getCurrentUser().getUserName(), newMatch.getMatchUser().getUserName());
                     otherMatch.setMatchStatus(MatchStatus.BOTH_LIKE);
                     repository.save(otherMatch);
                     return otherMatch;
                 }
 
             default:
-                LOG.info("Don't add match. initUser={}, matchUser={}", userService.getCurrentUser().getEmail(), newMatch.getMatchUser().getEmail());
+                LOG.info("Don't add match. initUser={}, matchUser={}", userService.getCurrentUser().getUserName(), newMatch.getMatchUser().getUserName());
                 return null;
         }
     }
 
     public Match getMatch(Long id) {
-        LOG.info("Retrieving match. user={}, id={}", userService.getCurrentUser().getEmail(), id);
+        LOG.info("Retrieving match. user={}, id={}", userService.getCurrentUser().getUserName(), id);
         return repository.findOne(id);
     }
 
     public void deleteMatch (Long id) {
-        LOG.info("Deleting match. user={}, id={}", userService.getCurrentUser().getEmail(), id);
+        LOG.info("Deleting match. user={}, id={}", userService.getCurrentUser().getUserName(), id);
         repository.delete(id);
     }
 
@@ -80,7 +80,7 @@ public class MatchService {
      * @param comment comment to append
      */
     public void addComment(Long id, Comment comment) {
-        LOG.info("Adding comment to match. user={}, id={}, commentId={}", userService.getCurrentUser().getEmail(),
+        LOG.info("Adding comment to match. user={}, id={}, commentId={}", userService.getCurrentUser().getUserName(),
                 id, comment.getId());
         Match match = repository.findOne(id);
         if (match == null) {

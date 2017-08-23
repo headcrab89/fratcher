@@ -31,16 +31,16 @@ public class AuthenticationService {
         public String token;
     }
 
-    public Boolean register (String email, String password) {
-        User user = userService.getUserByMail(email);
+    public Boolean register (String userName, String password) {
+        User user = userService.getUserByUserName(userName);
 
         if (user != null) {
-            LOG.info("User already exists. user={}", email);
+            LOG.info("User already exists. user={}", userName);
             return false;
         } else {
             String hashedPassword = hashPassword(password);
             user = new User();
-            user.setEmail(email);
+            user.setUserName(userName);
             user.setPassword(hashedPassword);
 
             userService.saveUser(user);
@@ -52,21 +52,21 @@ public class AuthenticationService {
     /**
      * Create a JWT token and additional user information if the user's credentails are valid.
      *
-     * @param email    email
+     * @param userName    userName
      * @param password password
      * @return a UserToken or null if the credentials are not valid
      */
-    public UserToken login(String email, String password) {
+    public UserToken login(String userName, String password) {
         String hashedPassword = hashPassword(password);
-        User user = userService.getUser(email, hashedPassword);
+        User user = userService.getUser(userName, hashedPassword);
         if (user == null) {
-            LOG.info("User unable to login. user={}", email);
+            LOG.info("User unable to login. user={}", userName);
             return null;
         }
-        LOG.info("User successfully logged in. user={}", email);
+        LOG.info("User successfully logged in. user={}", userName);
 
         String token = Jwts.builder()
-                .setSubject(email)
+                .setSubject(userName)
                 .setId(user.getId().toString())
                 .signWith(SignatureAlgorithm.HS512, JWTSecret)
                 .compact();

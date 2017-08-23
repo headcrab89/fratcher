@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class AuthenticationController {
     public static class UserLogin {
-        public String email;
+        public String userName;
         public String password;
     }
 
@@ -21,7 +21,7 @@ public class AuthenticationController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseEntity<AuthenticationService.UserToken> login(@RequestBody UserLogin userLogin) {
-        AuthenticationService.UserToken token = service.login(userLogin.email, userLogin.password);
+        AuthenticationService.UserToken token = service.login(userLogin.userName, userLogin.password);
 
         if (token == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -31,13 +31,13 @@ public class AuthenticationController {
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public ResponseEntity<AuthenticationService.UserToken> register(@RequestBody UserLogin userLogin) {
-        Boolean usernameIsNew = service.register(userLogin.email, userLogin.password);
+        Boolean usernameIsNew = service.register(userLogin.userName, userLogin.password);
 
         if (usernameIsNew == false || userLogin.password.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        AuthenticationService.UserToken token = service.login(userLogin.email, userLogin.password);
+        AuthenticationService.UserToken token = service.login(userLogin.userName, userLogin.password);
 
         if (token == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

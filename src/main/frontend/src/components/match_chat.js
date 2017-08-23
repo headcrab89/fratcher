@@ -48,12 +48,12 @@ class MatchChat extends React.Component {
                 <div className="media" key={comment.id}>
                     <div className="media-left media-middle">
                         <div className="circle media-object">
-                            <span>{comment.author.email[0]}</span>
+                            <span>{comment.author.userName[0]}</span>
                         </div>
                     </div>
                     <div className="media-body">
                         <span className="chatDate dateRight badge">{moment(comment.createdAt).format("D.MM.YY H:mm")}</span>
-                        <h4 className="media-heading">{comment.author.email}</h4>
+                        <h4 className="media-heading">{comment.author.userName}</h4>
                         <p className="bg-info warnText">{comment.text}</p>
                     </div>
                 </div>
@@ -75,7 +75,7 @@ class MatchChat extends React.Component {
         return (
             <div className="component">
                 <div className="page-header">
-                    <h1>{chatUser.email} <small></small></h1>
+                    <h1>{chatUser.userName} <small></small></h1>
                 </div>
                 {this.renderComments(t, match)}
                 <hr/>

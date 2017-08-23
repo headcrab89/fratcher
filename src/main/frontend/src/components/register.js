@@ -9,14 +9,14 @@ class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
+            userName: '',
             password: '',
             repeatPassword: '',
             error: undefined,
             passwordsMatch: false
         };
 
-        this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleUserNameChange = this.handleUserNameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleRepeatPasswordChange = this.handleRepeatPasswordChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,8 +24,8 @@ class Register extends React.Component {
         this.cookies = this.props.cookies;
     }
 
-    handleEmailChange(event) {
-        this.setState({email: event.target.value});
+    handleUserNameChange(event) {
+        this.setState({userName: event.target.value});
     }
 
     handlePasswordChange(event) {
@@ -80,14 +80,14 @@ class Register extends React.Component {
 
         if (User.isNotAuthenticated()) {
             registerComponent = <form onSubmit={this.handleSubmit}
-                                      className={this.state.email.length > 0 ? 'form-horizontal has-success' : 'form-horizontal'}>
+                                      className={this.state.userName.length > 0 ? 'form-horizontal has-success' : 'form-horizontal'}>
                 <div className="form-group">
-                    <label className="col-sm-2">{t('email')}</label>
+                    <label className="col-sm-2">{t('userName')}</label>
                     <div className="col-sm-4">
                         <input type="text" className="form-control"
                                autoFocus={true}
-                               value={this.state.email}
-                               onChange={this.handleEmailChange}/>
+                               value={this.state.userName}
+                               onChange={this.handleUserNameChange}/>
                     </div>
                 </div>
 
@@ -119,7 +119,7 @@ class Register extends React.Component {
                 <input type="submit"
                        className="btn btn-success"
                        value={t('registerButtonText')}
-                       {...(this.state.passwordsMatch && this.state.email.length > 0) ? {} : {disabled: 'disabled'}}/>
+                       {...(this.state.passwordsMatch && this.state.userName.length > 0) ? {} : {disabled: 'disabled'}}/>
             </form>
 
         } else {

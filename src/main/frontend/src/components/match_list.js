@@ -63,14 +63,14 @@ class MatchList extends React.Component {
                     let lastComment = match.comments[match.comments.length -1];
                     date = moment(lastComment.createdAt).format("D.MM.YY H:mm")
 
-                    component = lastComment.author.email + ': ' +lastComment.text;
+                    component = lastComment.author.userName + ': ' +lastComment.text;
                 } else {
                     component = t('clickToWriteMessage');
                 }
 
                 return (
                     <Link to={`/match/${match.id}`} key={match.id} className="list-group-item">
-                        <h4 className="list-group-item-heading"> {match.initUser.id === User.id ? match.matchUser.email : match.initUser.email}</h4>
+                        <h4 className="list-group-item-heading"> {match.initUser.id === User.id ? match.matchUser.userName : match.initUser.userName}</h4>
                         <p className="textEllipsis list-group-item-text">{component}</p> <span className="dateRight badge">{date}</span>
                     </Link>
                 );
@@ -85,7 +85,7 @@ class MatchList extends React.Component {
             return this.state.matchs.get(MatchStatus.LIKE).map((openMatch => {
                 return (
                 <a onClick={() => this.deleteMatch(openMatch.id)} className="list-group-item list-group-item-warning" key={openMatch.id}>
-                    <h4 className="list-group-item-heading">{openMatch.matchUser.email}</h4>
+                    <h4 className="list-group-item-heading">{openMatch.matchUser.userName}</h4>
                     <p className="list-group-item-text">{t('revertMatch')}</p>
                 </a>
                 );
@@ -100,7 +100,7 @@ class MatchList extends React.Component {
             return this.state.matchs.get(MatchStatus.DISLIKE).map((dislikeMatch => {
                 return (
                 <a onClick={() => this.deleteMatch(dislikeMatch.id)} className="list-group-item list-group-item-danger" key={dislikeMatch.id}>
-                    <h4 className="list-group-item-heading">{dislikeMatch.matchUser.email}</h4>
+                    <h4 className="list-group-item-heading">{dislikeMatch.matchUser.userName}</h4>
                     <p className="list-group-item-text">{t('revertMatch')}</p>
                 </a>
                 );

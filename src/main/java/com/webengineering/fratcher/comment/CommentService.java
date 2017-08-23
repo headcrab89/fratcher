@@ -31,10 +31,10 @@ public class CommentService {
         // Validate that user is allowed to delete comment.
         Comment comment = repository.findOne(id);
         if (!comment.getAuthor().equals(userService.getCurrentUser())) {
-            LOG.info("Deleting comment not allowed. user={}, id={}", userService.getCurrentUser().getEmail(), id);
+            LOG.info("Deleting comment not allowed. user={}, id={}", userService.getCurrentUser().getUserName(), id);
             throw new IllegalStateException("User not allowed to delete comment");
         }
-        LOG.info("Deleting comment. user={}, id={}", userService.getCurrentUser().getEmail(), id);
+        LOG.info("Deleting comment. user={}, id={}", userService.getCurrentUser().getUserName(), id);
 
         matchService.removeComment(comment);
     }
@@ -43,10 +43,10 @@ public class CommentService {
         // Validate that user is allowed to update comment.
         Comment comment = repository.findOne(id);
         if (!comment.getAuthor().equals(userService.getCurrentUser())) {
-            LOG.info("Updating comment not allowed. user={}, id={}", userService.getCurrentUser().getEmail(), id);
+            LOG.info("Updating comment not allowed. user={}, id={}", userService.getCurrentUser().getUserName(), id);
             throw new IllegalStateException("User not allowed to update comment");
         }
-        LOG.info("Updating comment. user={}, id={}", userService.getCurrentUser().getEmail(), id);
+        LOG.info("Updating comment. user={}, id={}", userService.getCurrentUser().getUserName(), id);
 
         comment.setText(updateComment.getText());
         repository.save(comment);
@@ -81,7 +81,7 @@ public class CommentService {
      * @return a comment
      */
     public Comment getComment(Long id) {
-        LOG.info("Retrieving comment. user={}, id={}", userService.getCurrentUser().getEmail(), id);
+        LOG.info("Retrieving comment. user={}, id={}", userService.getCurrentUser().getUserName(), id);
         return repository.findOne(id);
     }
 }

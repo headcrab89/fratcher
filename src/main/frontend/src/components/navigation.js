@@ -38,7 +38,7 @@ class Navigation extends React.Component {
                             <li><Link to="/">Login</Link></li>
                             }
                             { User.isAuthenticated() &&
-                            <li><Link to="/">{User.email}</Link></li>
+                            <li><Link to="/">{User.userName}</Link></li>
                             }
                         </ul>
                     </div>

@@ -44,38 +44,38 @@ public class UserService {
      * Set a user for the current request.
      *
      * @param id    user id
-     * @param email user email
+     * @param userName user userName
      */
-    public void setCurrentUser(Long id, String email) {
-        LOG.debug("Setting user context. id={}, user={}", id, email);
+    public void setCurrentUser(Long id, String userName) {
+        LOG.debug("Setting user context. id={}, user={}", id, userName);
         User user = new User();
         user.setId(id);
-        user.setEmail(email);
+        user.setUserName(userName);
         UsernamePasswordAuthenticationToken secAuth = new UsernamePasswordAuthenticationToken(user, null);
         SecurityContextHolder.getContext().setAuthentication(secAuth);
     }
 
     /**
-     * Retrieve a user with the given email and password.
+     * Retrieve a user with the given userName and password.
      *
-     * @param email    email
+     * @param userName    userName
      * @param password password
      * @return the user or null if none could be found
      */
-    public User getUser(String email, String password) {
-        LOG.debug("Retrieving user from database. user={}", email);
-        return userRepository.findByEmailAndPassword(email, password);
+    public User getUser(String userName, String password) {
+        LOG.debug("Retrieving user from database. user={}", userName);
+        return userRepository.findByUserNameAndPassword(userName, password);
     }
 
     /**
-     * Retrieve a user with the given email and password.
+     * Retrieve a user with the given userName and password.
      *
-     * @param email    email
+     * @param userName    userName
      * @return the user or null if none could be found
      */
-    public User getUserByMail (String email) {
-        LOG.debug("Retrieving user from database. user={}", email);
-        return userRepository.findByEmail(email);
+    public User getUserByUserName(String userName) {
+        LOG.debug("Retrieving user from database. user={}", userName);
+        return userRepository.findByUserName(userName);
     }
 
     public void saveUser (User user) {

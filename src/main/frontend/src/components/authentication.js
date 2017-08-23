@@ -9,7 +9,7 @@ class Authentication extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
+            userName: '',
             password: '',
             error: undefined,
             text: '',
@@ -17,7 +17,7 @@ class Authentication extends React.Component {
             textChangeActive: false
         };
 
-        this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleUserNameChange = this.handleUserNameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleUserTextChange = this.handleUserTextChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,8 +28,8 @@ class Authentication extends React.Component {
         this.activateTextChange = this.activateTextChange.bind(this);
     }
 
-    handleEmailChange(event) {
-        this.setState({email: event.target.value});
+    handleUserNameChange(event) {
+        this.setState({userName: event.target.value});
     }
 
 
@@ -116,12 +116,12 @@ class Authentication extends React.Component {
         if (User.isNotAuthenticated()) {
             loginComponent = <form onSubmit={this.handleSubmit} className="form-horizontal">
                 <div className="form-group">
-                    <label className="col-sm-2">{t('email')}</label>
+                    <label className="col-sm-2">{t('userName')}</label>
                     <div className="col-sm-4">
                         <input type="text" className="form-control"
                                autoFocus={true}
-                               value={this.state.email}
-                               onChange={this.handleEmailChange}/>
+                               value={this.state.userName}
+                               onChange={this.handleUserNameChange}/>
                     </div>
                 </div>
 
@@ -188,7 +188,7 @@ class Authentication extends React.Component {
         return (
             <div className="component">
                 <div className="page-header">
-                    <h1>{User.email ? t('currentUser') +' ' +User.email : t('loginHeader')}</h1>
+                    <h1>{User.userName ? t('currentUser') +' ' +User.userName : t('loginHeader')}</h1>
                 </div>
                 <p/>
                 {loginComponent}

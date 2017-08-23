@@ -5,7 +5,7 @@
   "currentUser": "Hallo",
   "notLogedin": "Keiner",
   "wrongLogin": "Login oder Passwort falsch",
-  "email": "Email",
+  "userName": "Name",
   "password": "Passwort",
   "logout": "Abmelden",
   "yourText": "Dein Text",
@@ -13,7 +13,7 @@
   "noText": "Du hast noch keinen Text. Nur wenn du ein Text erstellts können andere Nutzer dich finden",
 
   "registerFratcher": "Hier kannst du dich bei fratcher registrieren",
-  "userNameAlreadySet": "Fehler bei der registrierung entweder ist diese Email Adresse bereits belegt oder das Passwortfeld ist leer",
+  "userNameAlreadySet": "Fehler bei der registrierung entweder ist dieser Name bereits belegt oder das Passwortfeld ist leer",
   "alreadyRegister": "Sie sind bereits registriert",
   "repeatPassword": "Passwort wiederholen",
   "passwordsDontMatch": "Passwörter nicht identisch oder leer",

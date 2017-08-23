@@ -75,7 +75,7 @@ class TextList extends React.Component {
             return <div className="blueBackground jumbotron">
                 <blockquote>
                     <p>{text.userText}</p>
-                    <footer>{text.author.email}</footer>
+                    <footer>{text.author.userName}</footer>
                 </blockquote>
                 <div className="centerElement">
                     <button type="button"
@@ -122,7 +122,7 @@ class TextList extends React.Component {
                         <Modal.Title>{t('youHaveMatch')}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {t('wantToChat', {name: this.state.texts[0].author.email})}
+                        {t('wantToChat', {name: this.state.texts[0].author.userName})}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={() => {
