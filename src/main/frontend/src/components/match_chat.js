@@ -32,6 +32,11 @@ class MatchChat extends React.Component {
 
     handleCommentSubmit(event) {
         event.preventDefault();
+
+        if (this.state.comment.trim() === "") {
+            return;
+        }
+
         axios.post(`/api/match/${this.props.match.params.id}/comment`,
             {
                 text: this.state.comment
