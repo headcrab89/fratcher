@@ -41,8 +41,10 @@ public class CommentController {
         }
 
         // Since only a BOTH_LIKE-Match has comments an user can be either an initUser or a matchUser to see his comments
-        if (match.getMatchStatus() != MatchStatus.BOTH_LIKE &&
-                !(match.getInitUser().equals(userService.getCurrentUser()) ^ !match.getMatchUser().equals(userService.getCurrentUser()))) {
+        if (userService.isAnonymous() ||
+                (match.getMatchStatus() != MatchStatus.BOTH_LIKE && !(match.getInitUser().equals(userService.getCurrentUser())) ||
+                        (match.getMatchStatus() == MatchStatus.BOTH_LIKE && (!match.getInitUser().equals(userService.getCurrentUser()) &&
+                                !match.getMatchUser().equals(userService.getCurrentUser()))))) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
@@ -59,15 +61,5 @@ public class CommentController {
         CommentCreated commentCreated = new CommentCreated();
         commentCreated.url = addressService.getServerURL() + "/api/match/" + matchId + "/comment/" + id;
         return ResponseEntity.ok(commentCreated);
-    }
-
-    @RequestMapping(value = "/api/match/{matchId}/comment/{id}", method = RequestMethod.POST)
-    public void editComment(@PathVariable Long id, @RequestBody Comment comment) {
-        commentService.update(id, comment);
-    }
-
-    @RequestMapping(value = "/api/match/{matchId}/comment/{id}", method = RequestMethod.DELETE)
-    public void deleteComment(@PathVariable Long id) {
-        commentService.deleteComment(id);
     }
 }
