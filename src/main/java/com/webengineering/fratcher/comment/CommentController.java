@@ -1,5 +1,8 @@
 package com.webengineering.fratcher.comment;
 
+import com.webengineering.fratcher.match.Match;
+import com.webengineering.fratcher.match.MatchService;
+import com.webengineering.fratcher.match.MatchStatus;
 import com.webengineering.fratcher.user.UserService;
 import com.webengineering.fratcher.util.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +29,24 @@ public class CommentController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MatchService matchService;
+
     @RequestMapping(value = "/api/match/{matchId}/comment/{id}", method = RequestMethod.GET)
-    public Comment getComment(@PathVariable Long id) {
-        return commentService.getComment(id);
+    public ResponseEntity<Comment> getComment(@PathVariable Long matchId, @PathVariable Long id) {
+        Match match = matchService.getMatch(matchId);
+
+        if (match == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        // Since only a BOTH_LIKE-Match has comments an user can be either an initUser or a matchUser to see his comments
+        if (match.getMatchStatus() != MatchStatus.BOTH_LIKE &&
+                !(match.getInitUser().equals(userService.getCurrentUser()) ^ !match.getMatchUser().equals(userService.getCurrentUser()))) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        return ResponseEntity.ok(commentService.getComment(id));
     }
 
     @RequestMapping(value = "/api/match/{matchId}/comment", method = RequestMethod.POST)
