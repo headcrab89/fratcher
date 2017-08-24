@@ -40,11 +40,7 @@ public class CommentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // Since only a BOTH_LIKE-Match has comments an user can be either an initUser or a matchUser to see his comments
-        if (userService.isAnonymous() ||
-                (match.getMatchStatus() != MatchStatus.BOTH_LIKE && !(match.getInitUser().equals(userService.getCurrentUser())) ||
-                        (match.getMatchStatus() == MatchStatus.BOTH_LIKE && (!match.getInitUser().equals(userService.getCurrentUser()) &&
-                                !match.getMatchUser().equals(userService.getCurrentUser()))))) {
+        if (userService.isAnonymous() || !matchService.checkIfUserIsAuthorized(match)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
@@ -53,11 +49,13 @@ public class CommentController {
 
     @RequestMapping(value = "/api/match/{matchId}/comment", method = RequestMethod.POST)
     public ResponseEntity<CommentCreated> addComment(@PathVariable Long matchId, @RequestBody NewComment newComment) {
-        if (userService.isAnonymous()) {
+        Match match = matchService.getMatch(matchId);
+
+        if (match.getMatchStatus() != MatchStatus.BOTH_LIKE || !matchService.checkIfUserIsAuthorized(match)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        Long id = commentService.addComment(matchId, newComment.text);
+        Long id = commentService.addComment(match.getId(), newComment.text);
         CommentCreated commentCreated = new CommentCreated();
         commentCreated.url = addressService.getServerURL() + "/api/match/" + matchId + "/comment/" + id;
         return ResponseEntity.ok(commentCreated);

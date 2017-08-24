@@ -23,36 +23,6 @@ public class CommentService {
     private MatchService matchService;
 
     /**
-     * Remove a single comment.
-     *
-     * @param id the comments's id.
-     */
-    public void deleteComment(Long id) {
-        // Validate that user is allowed to delete comment.
-        Comment comment = repository.findOne(id);
-        if (!comment.getAuthor().equals(userService.getCurrentUser())) {
-            LOG.info("Deleting comment not allowed. user={}, id={}", userService.getCurrentUser().getUserName(), id);
-            throw new IllegalStateException("User not allowed to delete comment");
-        }
-        LOG.info("Deleting comment. user={}, id={}", userService.getCurrentUser().getUserName(), id);
-
-        matchService.removeComment(comment);
-    }
-
-    public void update(Long id, Comment updateComment) {
-        // Validate that user is allowed to update comment.
-        Comment comment = repository.findOne(id);
-        if (!comment.getAuthor().equals(userService.getCurrentUser())) {
-            LOG.info("Updating comment not allowed. user={}, id={}", userService.getCurrentUser().getUserName(), id);
-            throw new IllegalStateException("User not allowed to update comment");
-        }
-        LOG.info("Updating comment. user={}, id={}", userService.getCurrentUser().getUserName(), id);
-
-        comment.setText(updateComment.getText());
-        repository.save(comment);
-    }
-
-    /**
      * Add a comment to an existing match.
      *
      * @param matchId id of a match
@@ -61,6 +31,7 @@ public class CommentService {
      */
     @Transactional
     public Long addComment(Long matchId, String text) {
+        LOG.info("Write comment. user={}, id={}", userService.getCurrentUser().getUserName(), matchId);
         // Persist comment.
         Comment comment = new Comment();
         comment.setText(text);

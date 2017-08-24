@@ -56,12 +56,11 @@ public class MatchController {
         Match match = matchService.getMatch(id);
 
         // An User can only see the match if it is his own match
-        if (match.getInitUser().equals(userService.getCurrentUser())
-                || (match.getMatchUser().equals(userService.getCurrentUser()) && match.getMatchStatus().equals(MatchStatus.BOTH_LIKE))) {
-            return ResponseEntity.ok(match);
+        if (!matchService.checkIfUserIsAuthorized(match)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.ok(match);
     }
 
 

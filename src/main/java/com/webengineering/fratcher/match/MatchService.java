@@ -63,16 +63,6 @@ public class MatchService {
         repository.delete(id);
     }
 
-    public void removeComment(Comment comment) {
-        LOG.debug("Trying to remove comment. id={}", comment.getId());
-        Match match = repository.findMatchForComment(comment);
-        if (match == null) {
-            throw new IllegalArgumentException("No match found for comment");
-        }
-        match.getComments().remove(comment);
-        repository.save(match);
-    }
-
     /**
      * Append new comment to an existing match.
      *
@@ -89,5 +79,15 @@ public class MatchService {
 
         match.getComments().add(comment);
         repository.save(match);
+    }
+
+    public boolean checkIfUserIsAuthorized  (Match match) {
+        if (match.getInitUser().equals(userService.getCurrentUser()) ||
+                (match.getMatchStatus() == MatchStatus.BOTH_LIKE
+                        && match.getMatchUser().equals(userService.getCurrentUser()))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
