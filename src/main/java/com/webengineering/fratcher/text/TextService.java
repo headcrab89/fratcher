@@ -41,7 +41,7 @@ public class TextService {
     }
 
     public Text getTextByUserId(Long userId) {
-
+        LOG.info("Retrieving text from user with id={}", userId);
         Text userText = repository.findByUserId(userId);
 
         return userText;

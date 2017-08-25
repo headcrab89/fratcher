@@ -12,7 +12,8 @@ class TextList extends React.Component {
         this.state = {
             texts: [],
             askChat: false,
-            match: ''
+            match: '',
+            userText: ''
         }
 
         this.askChat = this.askChat.bind(this);
@@ -26,6 +27,13 @@ class TextList extends React.Component {
                 .then(({data}) => {
                     this.setState({
                         texts: data
+                    })
+                });
+
+            axios.get(`api/user/${User.id}/text`)
+                .then(({data}) => {
+                    this.setState({
+                        userText: data
                     })
                 });
         }
@@ -72,29 +80,36 @@ class TextList extends React.Component {
         } else {
             var text = this.state.texts[0];
 
-            return <div className="blueBackground jumbotron">
-                <blockquote>
-                    <p>{text.userText}</p>
-                    <footer>{text.author.userName}</footer>
-                </blockquote>
-                <div className="centerElement">
-                    <button type="button"
-                            className="btn btn-danger btn-lg btnMargin"
-                            data-toggle="tooltip"
-                            data-placement="bottom"
-                            title={t('dislikeText')}
-                            onClick={() => this.notLikeText(text.author)}>
-                        <span className="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-                    </button>
-                    <button type="button"
-                            className="btn btn-primary btn-lg btnMargin"
-                            data-toggle="tooltip"
-                            data-placement="bottom"
-                            title={t('likeText')}
-                            onClick={() => this.likeText(text.author)}>
-                        <span className="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                    </button>
+            return <div>
+                <div className="blueBackground jumbotron">
+                    <blockquote>
+                        <p>{text.userText}</p>
+                        <footer>{text.author.userName}</footer>
+                    </blockquote>
+                    <div className="centerElement">
+                        <button type="button"
+                                className="btn btn-danger btn-lg btnMargin"
+                                data-toggle="tooltip"
+                                data-placement="bottom"
+                                title={t('dislikeText')}
+                                onClick={() => this.notLikeText(text.author)}>
+                            <span className="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                        </button>
+                        <button type="button"
+                                className="btn btn-primary btn-lg btnMargin"
+                                data-toggle="tooltip"
+                                data-placement="bottom"
+                                title={t('likeText')}
+                                onClick={() => this.likeText(text.author)}>
+                            <span className="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                        </button>
+                    </div>
                 </div>
+
+                {
+                    this.state.userText.length === 0 &&
+                    <div className="alert alert-warning" role="alert"><span className="glyphicon glyphicon-alert"></span> {t('noUsertext')}</div>
+                }
             </div>
         }
     }

@@ -43,6 +43,7 @@
   "wantToChat": "Möchtest du mit {{name}} chatten?",
   "later": "Später",
   "okay": "Okay",
+  "noUsertext": "Du hast selbst noch keinen Text angelegt, andere Nutzer können dich nicht finden",
 
   "submit": "Anmelden",
   "login": "Login",
