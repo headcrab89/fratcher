@@ -28,6 +28,7 @@ public class TextController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        userService.updateLastActivity(userService.getCurrentUser().getId());
         return ResponseEntity.ok(textService.getNewTexts());
     }
 
@@ -37,6 +38,7 @@ public class TextController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        userService.updateLastActivity(userService.getCurrentUser().getId());
         return ResponseEntity.ok(textService.getTextByUserId(userId));
     }
 
@@ -47,6 +49,7 @@ public class TextController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        userService.updateLastActivity(userService.getCurrentUser().getId());
         long textId = textService.addOrReplaceText(text);
         TextCreated textCreated =  new TextCreated();
         textCreated.url = addressService.getServerURL() +"api/text/" + textId;
@@ -59,6 +62,7 @@ public class TextController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        userService.updateLastActivity(userService.getCurrentUser().getId());
         return ResponseEntity.ok(textService.getText(id));
     }
 
@@ -69,6 +73,7 @@ public class TextController {
             return;
         }
 
+        userService.updateLastActivity(userService.getCurrentUser().getId());
         textService.deleteText(id);
     }
 }

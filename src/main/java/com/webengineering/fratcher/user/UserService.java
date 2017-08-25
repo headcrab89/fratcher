@@ -3,9 +3,12 @@ package com.webengineering.fratcher.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class UserService {
@@ -51,6 +54,7 @@ public class UserService {
         User user = new User();
         user.setId(id);
         user.setUserName(userName);
+        user.setLastActivity(new Date());
         UsernamePasswordAuthenticationToken secAuth = new UsernamePasswordAuthenticationToken(user, null);
         SecurityContextHolder.getContext().setAuthentication(secAuth);
     }
@@ -80,5 +84,9 @@ public class UserService {
 
     public void saveUser (User user) {
         userRepository.save(user);
+    }
+
+    public void updateLastActivity(Long id) {
+        userRepository.updateLastActivity(new Date(), id);
     }
 }

@@ -22,6 +22,8 @@
   "createdAt": "Erstellt am",
   "writeMessage": "Nachricht schreiben",
   "sendMessage": "Senden",
+  "onlineStatus": "Online",
+  "lastSeen": "zul. Online am {{date}}",
 
   "loginMatch": "Sie müssen eingeloggt sein um ihre Matches sehen zu können",
   "noMatchs": "Zurzeit hast du keine Matchs mit anderen Nutzern",

@@ -5,12 +5,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import java.util.Date;
 
 @Entity(name = "User_")
 public class User {
     @Id
     @GeneratedValue
     private Long id;
+
+    private Date lastActivity;
 
     private String userName;
     @JsonIgnore
@@ -40,6 +44,14 @@ public class User {
         this.id = id;
     }
 
+    public Date getLastActivity() {
+        return lastActivity;
+    }
+
+    public void setLastActivity(Date lastActivity) {
+        this.lastActivity = lastActivity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -59,13 +71,16 @@ public class User {
         return id != null ? id.hashCode() : 0;
     }
 
+    @PrePersist
+    public void prePersist() {
+        lastActivity = new Date();
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
-
 }

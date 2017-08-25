@@ -65,6 +65,8 @@ public class AuthenticationService {
         }
         LOG.info("User successfully logged in. user={}", userName);
 
+        userService.updateLastActivity(user.getId());
+
         String token = Jwts.builder()
                 .setSubject(userName)
                 .setId(user.getId().toString())

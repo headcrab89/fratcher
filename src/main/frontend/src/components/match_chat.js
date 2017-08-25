@@ -80,7 +80,8 @@ class MatchChat extends React.Component {
         return (
             <div className="component">
                 <div className="page-header">
-                    <h1>{chatUser.userName} <small></small></h1>
+                    <h1>{chatUser.userName} <small>{User.isActive(chatUser.lastActivity) ? t('onlineStatus')
+                        : t('lastSeen', {date: moment(chatUser.lastActivity).format("D.MM.YY H:mm")})}</small></h1>
                 </div>
                 {this.renderComments(t, match)}
                 <hr/>

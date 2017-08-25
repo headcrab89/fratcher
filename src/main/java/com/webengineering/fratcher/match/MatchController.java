@@ -31,6 +31,7 @@ public class MatchController {
            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        userService.updateLastActivity(userService.getCurrentUser().getId());
         return ResponseEntity.ok(matchService.getMatches(userId));
     }
 
@@ -43,6 +44,7 @@ public class MatchController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+        userService.updateLastActivity(userService.getCurrentUser().getId());
         Match newMatch = matchService.addMatch(match);
         MatchCreated matchCreated = new MatchCreated();
         matchCreated.id = newMatch.getId();
@@ -60,6 +62,7 @@ public class MatchController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        userService.updateLastActivity(userService.getCurrentUser().getId());
         return ResponseEntity.ok(match);
     }
 
@@ -73,6 +76,7 @@ public class MatchController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        userService.updateLastActivity(userService.getCurrentUser().getId());
         matchService.deleteMatch(id);
 
         return new ResponseEntity<>(HttpStatus.OK);

@@ -44,6 +44,7 @@ public class CommentController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        userService.updateLastActivity(userService.getCurrentUser().getId());
         return ResponseEntity.ok(commentService.getComment(id));
     }
 
@@ -55,6 +56,7 @@ public class CommentController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        userService.updateLastActivity(userService.getCurrentUser().getId());
         Long id = commentService.addComment(match.getId(), newComment.text);
         CommentCreated commentCreated = new CommentCreated();
         commentCreated.url = addressService.getServerURL() + "/api/match/" + matchId + "/comment/" + id;

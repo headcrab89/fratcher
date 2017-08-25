@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
+import moment from "moment";
 
 class User {
     constructor() {
@@ -19,11 +20,13 @@ class User {
     set(data) {
         this.userName = data.userName;
         this.id = data.id;
+        this.lastActivity = data.lastActivity;
     }
 
     reset() {
         this.userName = undefined;
         this.id = -1;
+        this.lastActivity = undefined;
     }
 
     isAuthenticated() {
@@ -32,6 +35,14 @@ class User {
 
     isNotAuthenticated() {
         return !this.isAuthenticated();
+    }
+
+    isActive(date) {
+        if (moment(date).add(5, "m").isAfter(moment())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
