@@ -10,18 +10,45 @@ class MatchChat extends React.Component {
         super();
         this.state = {
             match: undefined,
-            comment: ''
+            chatPartner: '',
+            comment: '',
+            count: '',
+            socket: new WebSocket('ws://localhost:8080/message')
         }
 
         this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
         this.handleCommentChange = this.handleCommentChange.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
+
+        this.state.socket.onopen = () => {
+            console.log("Connection established...");
+        };
+
+        this.state.socket.onmessage = (messageEvent) => {
+            console.log("> " + messageEvent.data);
+            this.componentWillMount();
+        };
+
+        this.state.socket.onerror = (errorEvent) => {
+            console.log("Error. Connection closed.");
+        };
+
+        this.state.socket.onclose = (closeEvent) => {
+            console.log('Connection closed. Code: ' + closeEvent.code + '; Reason: ' + closeEvent.reason);
+        };
+    }
+
+    sendMessage() {
+        this.state.socket.send('New Message');
     }
 
     componentWillMount() {
         axios.get(`/api/match/${this.props.match.params.id}`)
             .then(({data}) => {
+                this.setState({match: data});
                 this.setState({
-                    match: data
+                    chatPartner: User.id === this.state.match.initUser.id ?
+                        this.state.match.matchUser : this.state.match.initUser
                 });
             });
     }
@@ -42,6 +69,7 @@ class MatchChat extends React.Component {
                 text: this.state.comment
             })
             .then((data) => {
+                this.sendMessage();
                 this.setState({comment: ''});
                 this.componentWillMount();
             });
@@ -75,7 +103,7 @@ class MatchChat extends React.Component {
             return <div></div>
         }
 
-        const chatUser = User.id === match.initUser.id ? match.matchUser : match.initUser;
+        const chatUser = this.state.chatPartner;
 
         return (
             <div className="component">
