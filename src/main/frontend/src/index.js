@@ -6,7 +6,7 @@ import {HashRouter as Router, Link, Route, Switch} from "react-router-dom";
 
 import Authentication from "./components/authentication";
 import Navigation from "./components/navigation";
-import TextList from "./components/text_list";
+import MatchFind from "./components/match_find";
 import MatchList from "./components/match_list";
 import MatchChat from "./components/match_chat";
 import Register from "./components/register";
@@ -32,7 +32,7 @@ class Root extends React.Component {
                     this.nav = component;
                 }}/>
                 <Switch>
-                    <Route path="/match/find" component={TextList} />
+                    <Route path="/match/find" component={MatchFind} />
                     <Route path="/match/list" component={MatchList} />
                     <Route path="/match/:id" component={MatchChat} />
                     <Route path="/register" component={Register}/>

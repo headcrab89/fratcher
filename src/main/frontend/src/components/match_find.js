@@ -6,7 +6,7 @@ import {Button, Modal} from "react-bootstrap";
 import User from "../util/User";
 import MatchStatus from "../util/MatchStatus";
 
-class TextList extends React.Component {
+class MatchFind extends React.Component {
     constructor(props) {
         super();
         this.state = {
@@ -158,4 +158,4 @@ class TextList extends React.Component {
 }
 
 
-export default translate()(TextList);
+export default translate()(MatchFind);
