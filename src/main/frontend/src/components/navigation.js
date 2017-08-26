@@ -1,17 +1,17 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {translate} from "react-i18next";
 
 import User from "../util/User";
 
-
-// component communication doesn't work with translate (could not find a solution to this).
-// Therefore on this page will be no translation for now
 class Navigation extends React.Component {
     updateAuthentication() {
         this.forceUpdate();
     }
 
     render() {
+        const {t} = this.props;
+
         return (
             <nav className="navbar navbar-inverse navbar-fixed-top">
                 <div className="container">
@@ -26,16 +26,16 @@ class Navigation extends React.Component {
                     <div id="navbar" className="collapse navbar-collapse">
                         <ul className="nav navbar-nav">
                             { User.isAuthenticated() &&
-                            <li><Link to="/match/find">finde neue Matchs</Link></li>
+                            <li><Link to="/match/find">{t('findMatch')}</Link></li>
                             }
 
                             { User.isAuthenticated() &&
-                            <li><Link to="/match/list">deine Matchs</Link></li>
+                            <li><Link to="/match/list">{t('listMatch')}</Link></li>
                             }
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             { User.isNotAuthenticated() &&
-                            <li><Link to="/">Login</Link></li>
+                            <li><Link to="/">{t('login')}</Link></li>
                             }
                             { User.isAuthenticated() &&
                             <li><Link to="/">{User.userName}</Link></li>
@@ -48,4 +48,6 @@ class Navigation extends React.Component {
     }
 }
 
-export default Navigation;
+// https://devhub.io/repos/i18next-react-i18next
+// Without withRef: true only Translation object would be returned and this.nav.updateAuthentication in index.js would not work
+export default translate(['common'], {withRef: true})(Navigation);

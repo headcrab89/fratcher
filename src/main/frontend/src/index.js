@@ -22,8 +22,7 @@ class Root extends React.Component {
     }
 
     updateAuthentication() {
-        this.nav.updateAuthentication();
-        // this.forceUpdate();
+        this.nav.getWrappedInstance().updateAuthentication();
     }
 
     render () {
