@@ -3,6 +3,7 @@ import axios from "axios";
 import moment from "moment";
 
 import User from "../util/User";
+import Address from "../util/Address";
 import {translate} from "react-i18next";
 
 class MatchChat extends React.Component {
@@ -12,7 +13,7 @@ class MatchChat extends React.Component {
             match: undefined,
             chatPartner: '',
             comment: '',
-            socket: new WebSocket('ws://localhost:8080/message')
+            socket: new WebSocket(Address.websocket)
         }
 
         this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
