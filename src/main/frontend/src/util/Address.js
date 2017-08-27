@@ -5,7 +5,15 @@ class Address {
 
     setWebsocketAddress () {
         var host = window.location.host;
-        this.websocket =  `ws://${host}/message`;
+        var protocol;
+
+        if (host.startsWith('localhost')) {
+            protocol = "ws"
+        } else {
+            protocol = "wss";
+        }
+
+        this.websocket =  `${protocol}://${host}/message`;
     }
 }
 
