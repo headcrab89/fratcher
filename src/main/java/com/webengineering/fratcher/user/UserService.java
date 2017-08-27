@@ -83,10 +83,12 @@ public class UserService {
     }
 
     public void saveUser (User user) {
+        LOG.debug("save new user. user={}", this.getCurrentUser().getUserName());
         userRepository.save(user);
     }
 
     public void updateLastActivity(Long id) {
+        LOG.debug("Update last activity time from database. user={}, id={}", this.getCurrentUser().getUserName(), id);
         userRepository.updateLastActivity(new Date(), id);
     }
 }

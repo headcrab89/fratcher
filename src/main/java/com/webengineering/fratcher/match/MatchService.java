@@ -87,6 +87,7 @@ public class MatchService {
                         && match.getMatchUser().equals(userService.getCurrentUser()))) {
             return true;
         } else {
+            LOG.warn("User performs an unauthorized action with in match. user={}", userService.getCurrentUser().getUserName());
             return false;
         }
     }
