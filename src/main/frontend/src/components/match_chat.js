@@ -12,7 +12,6 @@ class MatchChat extends React.Component {
             match: undefined,
             chatPartner: '',
             comment: '',
-            count: '',
             socket: new WebSocket('ws://localhost:8080/message')
         }
 
@@ -22,15 +21,15 @@ class MatchChat extends React.Component {
 
         this.state.socket.onopen = () => {
             console.log("Connection established...");
+            this.state.socket.send("id: " +User.id);
         };
 
         this.state.socket.onmessage = (messageEvent) => {
-            console.log("> " + messageEvent.data);
             this.componentWillMount();
         };
 
         this.state.socket.onerror = (errorEvent) => {
-            console.log("Error. Connection closed.");
+            console.log("Error. Connection closed. " +errorEvent);
         };
 
         this.state.socket.onclose = (closeEvent) => {
@@ -39,7 +38,7 @@ class MatchChat extends React.Component {
     }
 
     sendMessage() {
-        this.state.socket.send('New Message');
+        this.state.socket.send("send to: " +this.state.chatPartner.id);
     }
 
     componentWillMount() {
@@ -51,6 +50,11 @@ class MatchChat extends React.Component {
                         this.state.match.matchUser : this.state.match.initUser
                 });
             });
+    }
+
+    // Before the component will be unmounted the websocket connection will be closed
+    componentWillUnmount() {
+        this.state.socket.close();
     }
 
     handleCommentChange(event) {
