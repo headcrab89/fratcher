@@ -58,19 +58,23 @@ class MatchList extends React.Component {
             return this.state.matchs.get(MatchStatus.BOTH_LIKE).map((match => {
                 let component;
                 let date;
+                let newMatch = false;
 
                 if (match.comments.length > 0) {
                     let lastComment = match.comments[match.comments.length -1];
                     date = moment(lastComment.createdAt).format("D.MM.YY H:mm")
-
                     component = lastComment.author.userName + ': ' +lastComment.text;
+                    newMatch = !match.comments.some(comment => comment.author.id === User.id);
                 } else {
                     component = t('clickToWriteMessage');
+                    newMatch = true;
                 }
 
                 return (
                     <Link to={`/match/${match.id}`} key={match.id} className="list-group-item">
-                        <h4 className="list-group-item-heading"> {match.initUser.id === User.id ? match.matchUser.userName : match.initUser.userName}</h4>
+                        <h4 className="list-group-item-heading"> {match.initUser.id === User.id ? match.matchUser.userName : match.initUser.userName} { newMatch &&
+                        <span className="label label-info">{t('newMatch')}</span>
+                        } </h4>
                         <p className="textEllipsis list-group-item-text">{component}</p> <span className="dateRight badge">{date}</span>
                     </Link>
                 );
