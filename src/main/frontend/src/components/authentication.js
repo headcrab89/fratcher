@@ -22,6 +22,7 @@ class Authentication extends React.Component {
         this.handleUserTextChange = this.handleUserTextChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleTextChangeSubmit = this.handleTextChangeSubmit.bind(this);
+        this.handleTextDeleteSubmit = this.handleTextDeleteSubmit.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.cookies = this.props.cookies;
         this.handleRegisterClick = this.handleRegisterClick.bind(this);
@@ -63,7 +64,17 @@ class Authentication extends React.Component {
                 this.componentDidMount();
                 this.setState({textChangeActive: false});
             });
+    }
 
+    handleTextDeleteSubmit(event) {
+        event.preventDefault();
+        axios.delete(`api/text/${this.state.text.id}`)
+            .then(({data}) => {
+                this.setState({
+                    text: ""
+                });
+            this.componentDidMount();
+            });
     }
 
     handleSubmit(event) {
@@ -178,6 +189,13 @@ class Authentication extends React.Component {
                             <button type="button" className="btn btn-primary" onClick={this.activateTextChange}>
                                 <span className="glyphicon glyphicon-pencil" aria-hidden="true" />
                             </button>
+
+                            { this.state.text.length !== 0 &&
+                                <button type="button" className="btnMargin btn btn-primary" onClick={this.handleTextDeleteSubmit}>
+                                    <span className="glyphicon glyphicon-trash" aria-hidden="true" />
+                                </button>
+                            }
+
                         </div>
                     </div>
                     <p/>
