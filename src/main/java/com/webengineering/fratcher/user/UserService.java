@@ -82,11 +82,19 @@ public class UserService {
         return userRepository.findByUserName(userName);
     }
 
+    /**
+     * Saves new user in database
+     * @param user
+     */
     public void saveUser (User user) {
         LOG.debug("save new user. user={}", user.getUserName());
         userRepository.save(user);
     }
 
+    /**
+     * updates the last activity of a user
+     * @param id
+     */
     public void updateLastActivity(Long id) {
         LOG.debug("Update last activity time from database. userId={}", id);
         userRepository.updateLastActivity(new Date(), id);

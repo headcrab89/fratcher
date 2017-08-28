@@ -19,10 +19,22 @@ public class MatchService {
     @Autowired
     private UserService userService;
 
+    /**
+     * Find all Matches an User has
+     * @param userId
+     * @return List of all matches
+     */
     public List<Match> getMatches (Long userId) {
         return repository.findByUserId(userId);
     }
 
+    /**
+     * Adds a new Match. If it is a LIKE Match it will be checked if the other user has already match for the current
+     * user and this match gets an update.
+     * In case of a BOTH_LIKE Status nothing will be saved. Because it is forbiddden to submit Matches with BOTH_LIKE status
+     * @param newMatch
+     * @return a new Match
+     */
     public Match addMatch (Match newMatch) {
         newMatch.setInitUser(userService.getCurrentUser());
 
@@ -53,11 +65,20 @@ public class MatchService {
         }
     }
 
+    /**
+     * Returns a single match. In MatchController this Object will be only to the current user if it is his own match
+     * @param id
+     * @return Match Object
+     */
     public Match getMatch(Long id) {
         LOG.info("Retrieving match. user={}, id={}", userService.getCurrentUser().getUserName(), id);
         return repository.findOne(id);
     }
 
+    /**
+     * Deletes a Match
+     * @param id
+     */
     public void deleteMatch (Long id) {
         LOG.info("Deleting match. user={}, id={}", userService.getCurrentUser().getUserName(), id);
         repository.delete(id);
@@ -81,6 +102,11 @@ public class MatchService {
         repository.save(match);
     }
 
+    /**
+     * Is used in MatchController to check if the current user is allowed to do this action
+     * @param match
+     * @return boolean
+     */
     public boolean checkIfUserIsAuthorized  (Match match) {
         if (match.getInitUser().equals(userService.getCurrentUser()) ||
                 (match.getMatchStatus() == MatchStatus.BOTH_LIKE
